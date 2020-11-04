@@ -1,2 +1,34 @@
 %ceci est un test
 %ceci est le test pour le uddate
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Cette partie permet d'afficher arrays de strings de facon aléatoire
+%Pour la stimulation finale, mettre le phrases dans des arrays
+%Pour les images, des loops vont aider
+A1= ["le", "chat", "vert"]; %Variables
+A2= ["le", "chien", "rouge"];
+A3= ["l'", "humain", "jaune"];
+A4= ["Bonjour" , "monde"];
+A5=["ceci", "est", "un", "test" "de", "quantité"];
+I1=imread('Test.jpg');
+I2 = imread('dune2020_large.jpg');
+I3 = imread('image001.jpg');
+%On peut probablement faire un loop ici...
+ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
+images = {I1 ; I2 ; I3};
+[~,idx] = sort(rand(size(ABC)))
+[~,idxIm] = sort(rand(size(images))); %On randomise la position des arrays
+%Boucle qui cherche à changer la valeur dans les arrays
+for x = 1:size(ABC)  
+    montrer=(idx(x)); 
+    disp(ABC{montrer});
+    for y = 1:size(ABC{idx(x)}) %Cette boucle est un exemple de concaténation de texte à chaque mot dans les phrases
+        disp(ABC{montrer(y)}+("Hello"));
+    end
+end
+%Ceci est la boucle pour les images randomisées
+for Z = 1:size(images)  
+    montrerIm=(idxIm(Z)); 
+    figure, imshow(images{montrerIm});%Montre l'image à la valeur de l'array choisie
+end
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
