@@ -1,5 +1,14 @@
 %Squelette de travail
 
+% écran paramètres
+
+screens=Screen('Screens');
+screenNumber=max(screens);
+[width_in_mm, height_in_mm]=Screen('DisplaySize', screenNumber);
+resolutions = Screen('Resolution', screenNumber);
+pixel_in_mm = width_in_mm/resolutions.width;
+%feedback auditif vs visuel?
+
 % Checks if file name already exists
 file_name = sprintf('TRAVAIL_CSF_sub%d_block%d', subNum, nBlock);
 if fopen([file_name,'.mat'])>0
@@ -31,6 +40,7 @@ A2= ["Dune" "le"];
 A3= ["Figure", "Mathématique"];
 A4= ["I", "Will", "Be", "Your", "Hero"];
 A5=["Damier" "Exercice"];
+%Mise en mémoire des images - dossier en construction (fruits / outils)
 I1=imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
