@@ -40,7 +40,8 @@ A2= ["Dune" "le"];
 A3= ["Figure", "Mathématique"];
 A4= ["I", "Will", "Be", "Your", "Hero"];
 A5=["Damier" "Exercice"];
-%Mise en mémoire des images - dossier en construction (fruits / outils)
+%Mise en mémoire des images - dossier en construction (fruits / outils) -
+%fruits sont en png, a voir pour outils - conversion possible
 I1=imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
