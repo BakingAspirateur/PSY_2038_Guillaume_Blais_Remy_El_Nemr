@@ -110,26 +110,46 @@ I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
-[~,idx] = sort(rand(size(ABC))) %Permet de faire une série de valeurs randomisés
 %C'est tres contre intuitif, mais ca fonctionne
 ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
+[~,idx] = sort(rand(size(ABC))) %Permet de faire une série de valeurs randomisés
 images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
 for z=1:size(ABC) %Ici le size fonctionne, donc de 1 à 5...
+    Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
+Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
+Screen('Flip', windowPtr);
+WaitSecs(0.5);
+%remplacer la croix de fixation par une fonction
     montrer=idx(z); %montrer est ma valeur randomisée
     ending=max(size(ABC{montrer})); % Size ne fonctionne pas apres, so on trouve une fin à la phrase
-    
-    for x=1:ending
-  Screen('DrawText', windowPtr,num2str(ABC{montrer}(x)), 750, 500); 
-  Screen('Flip', windowPtr);
-  WaitSecs(0.5);
-    end
-    texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois... c'est de la folie
+      texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois... c'est de la folie
    Screen('DrawTexture', windowPtr,texturePtr(1) );
     Screen('Flip', windowPtr)
-    WaitSecs(1.5);
+    WaitSecs(1);
+    for x=1:ending
+        
+  Screen('DrawText', windowPtr,num2str(ABC{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ABC{montrer}(x))))/2)*(resolutions.width/250)), resolutions.height*0.49); 
+  %Cette catastrophe tente de centrer les mots
+  Screen('Flip', windowPtr);
+  WaitSecs(0.3);
+  Screen('Flip', windowPtr);
+  WaitSecs(0.2);
+    end
+ Screen('Flip', windowPtr);
+WaitSecs(0.5); %Ici il faut attendre l'imput du participant
 end
-sca
 
+sca;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Cette partie est pour la croix de fixation
+function croix_fixation = fabriquer_fixation
+
+Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
+Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
+Screen('Flip', windowPtr);
+WaitSecs(0.5);
+
+end
