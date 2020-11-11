@@ -130,7 +130,7 @@ WaitSecs(0.5);
     WaitSecs(1);
     for x=1:ending
         
-  Screen('DrawText', windowPtr,num2str(ABC{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ABC{montrer}(x))))/2)*(resolutions.width/250)), resolutions.height*0.49); 
+  Screen('DrawText', windowPtr,num2str(ABC{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ABC{montrer}(x))))*0.75)*(resolutions.width/250)), resolutions.height*0.48); 
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
   WaitSecs(0.3);
@@ -144,12 +144,24 @@ end
 sca;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Cette partie est pour la croix de fixation
-function croix_fixation = fabriquer_fixation
-
+%%
+%Voici la fonction pour la croix de fixation
+function croix_fixation = fabriquer_fixation(resolutions)
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
 Screen('Flip', windowPtr);
 WaitSecs(0.5);
+end
 
+%%
+%Voici la fonction pour l'affichage de la commande
+function commande=afficher_commande(resolutions)
+[windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]);
+Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
+Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.57, resolutions.height*.58, resolutions.width*.66, resolutions.height*.65]);
+Screen('DrawText', windowPtr, 'Q=Congruent', resolutions.width*.37, resolutions.height*.60);
+Screen('DrawText', windowPtr, 'W=Incongruent', resolutions.width*.57, resolutions.height*.60);
+Screen('Flip', windowPtr);
+WaitSecs(2);
+sca;
 end
