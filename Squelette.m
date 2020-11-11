@@ -75,7 +75,7 @@ end
 
 
 % Ceci est utile pour générer un rng
-randi([1 30])
+randi([1 30]) %serait randperm(30,30)?
 
 %Ces fonctions d'enregistrement d'image seront importantes.
 im = imread('Test.jpg');
