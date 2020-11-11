@@ -111,7 +111,7 @@ LFS4 = ["Le", "melon"];
 LFS5 = ["La", "mangue"];
 LFS6 = ["La", "fraise"];
 
-I1 =imread('Test.jpg');
+I1 = imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
