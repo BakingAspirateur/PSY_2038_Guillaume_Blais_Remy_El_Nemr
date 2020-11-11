@@ -77,6 +77,20 @@ ULG4 = ["Un", "melon"];
 ULG5 = ["Une", "mangue"];
 ULG6 = ["Une", "fraise"];
 
+DFP1 = ["Des", "pommes"];
+DFP2 = ["Des", "bananes"];
+DFP3 = ["Des", "peches"];
+DFP4 = ["Des", "melons"];
+DFP5 = ["Des", "mangues"];
+DFP6 = ["Des", "fraises"];
+
+PFP1 = ["Plusieurs", "pommes"];
+PFP2 = ["Plusieurs", "bananes"];
+PFP3 = ["Plusieurs", "peches"];
+PFP4 = ["Plusieurs", "melons"];
+PFP5 = ["Plusieurs", "mangues"];
+PFP6 = ["Plusieurs", "fraises"];
+
 
 I1 = imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
