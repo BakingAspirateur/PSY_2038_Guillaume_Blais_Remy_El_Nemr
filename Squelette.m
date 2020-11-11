@@ -68,13 +68,6 @@ LFS4 = ["Le", "melon"];
 LFS5 = ["La", "mangue"];
 LFS6 = ["La", "fraise"];
 
-ULG1 = ["Une", "patate"];
-ULG2 = ["Une", "banane"];
-ULG3 = ["Une", "peche"];
-ULG4 = ["Un", "melon"];
-ULG5 = ["Une", "mangue"];
-ULG6 = ["Une", "fraise"];
-
 DFP1 = ["Des", "pommes"];
 DFP2 = ["Des", "bananes"];
 DFP3 = ["Des", "peches"];
@@ -88,6 +81,34 @@ PFP3 = ["Plusieurs", "peches"];
 PFP4 = ["Plusieurs", "melons"];
 PFP5 = ["Plusieurs", "mangues"];
 PFP6 = ["Plusieurs", "fraises"];
+
+ULG1 = ["Une", "patate"];
+ULG2 = ["Une", "carotte"];
+ULG3 = ["Une", "tomate"];
+ULG4 = ["Un", "oignon"];
+ULG5 = ["Une", "citrouille"];
+ULG6 = ["Un", "broccoli"];
+
+LLG1 = ["La", "patate"];
+LLG2 = ["La", "carotte"];
+LLG3 = ["La", "tomate"];
+LLG4 = ["L'", "oignon"];
+LLG5 = ["La", "citrouille"];
+LLG6 = ["Le", "broccoli"];
+
+DLG1 = ["Des", "patates"];
+DLG2 = ["Des", "carottes"];
+DLG3 = ["Des", "tomates"];
+DLG4 = ["Des", "oignons"];
+DLG5 = ["Des", "citrouilles"];
+DLG6 = ["Des", "broccolis"];
+
+PLG1 = ["Plusieurs", "patates"];
+PLG2 = ["Plusieurs", "carottes"];
+PLG3 = ["Plusieurs", "tomates"];
+PLG4 = ["Plusieurs", "oignons"];
+PLG5 = ["Plusieurs", "citrouilles"];
+PLG6 = ["Plusieurs", "broccolis"];
 
 %Remy: Changer images, faire legumes, agrandir ArrStr
 

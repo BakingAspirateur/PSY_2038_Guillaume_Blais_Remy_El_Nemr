@@ -2,7 +2,7 @@ function experience = Squelette(subNum)
 
 %Squelette de travail
 % Checks if file name already exists
-file_name = sprintf('Squelette_sub%d', subNum);
+file_name = sprintf('Squelette_sujet%d', subNum);
 if fopen([file_name,'.mat'])>0
 	warning('This filename already exists.')
     reenter = input('Overwrite (y/n)? ', 's');
@@ -13,11 +13,9 @@ if fopen([file_name,'.mat'])>0
 end
 %Mettre les constantes ici/ les stimuli déja fait, s'ils ne sont pas fait
 key1 = 'q'; %Touche pour Congruent %Utiliser seulement la main gauche!
-key2 = 'p'; % Touche pour incongruent
+key2 = 'e'; % Touche pour incongruent
 frequencies = 1; %Le nombre de stimuli total
 
-%<<<<<<< HEAD
-%=======
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,13 +68,6 @@ LFS4 = ["Le", "melon"];
 LFS5 = ["La", "mangue"];
 LFS6 = ["La", "fraise"];
 
-ULG1 = ["Une", "patate"];
-ULG2 = ["Une", "banane"];
-ULG3 = ["Une", "peche"];
-ULG4 = ["Un", "melon"];
-ULG5 = ["Une", "mangue"];
-ULG6 = ["Une", "fraise"];
-
 DFP1 = ["Des", "pommes"];
 DFP2 = ["Des", "bananes"];
 DFP3 = ["Des", "peches"];
@@ -90,6 +81,34 @@ PFP3 = ["Plusieurs", "peches"];
 PFP4 = ["Plusieurs", "melons"];
 PFP5 = ["Plusieurs", "mangues"];
 PFP6 = ["Plusieurs", "fraises"];
+
+ULG1 = ["Une", "patate"];
+ULG2 = ["Une", "carotte"];
+ULG3 = ["Une", "tomate"];
+ULG4 = ["Un", "oignon"];
+ULG5 = ["Une", "citrouille"];
+ULG6 = ["Un", "broccoli"];
+
+LLG1 = ["La", "patate"];
+LLG2 = ["La", "carotte"];
+LLG3 = ["La", "tomate"];
+LLG4 = ["L'", "oignon"];
+LLG5 = ["La", "citrouille"];
+LLG6 = ["Le", "broccoli"];
+
+DLG1 = ["Des", "patates"];
+DLG2 = ["Des", "carottes"];
+DLG3 = ["Des", "tomates"];
+DLG4 = ["Des", "oignons"];
+DLG5 = ["Des", "citrouilles"];
+DLG6 = ["Des", "broccolis"];
+
+PLG1 = ["Plusieurs", "patates"];
+PLG2 = ["Des", "carottes"];
+PLG3 = ["Des", "tomates"];
+PLG4 = ["Des", "oignons"];
+PLG5 = ["Des", "citrouilles"];
+PLG6 = ["Des", "broccolis"];
 
 %Remy: Changer images, faire legumes, agrandir ArrStr
 
@@ -141,7 +160,7 @@ mot=join(ArrStr{montrer});
 %Ici on save le stuff
 position=z;
 mot=join(ArrStr{montrer});
-save(['file_name_' num2str(position) ',mat'], 'mot', 'RT', 'temp' );
+save([file_name '_'  num2str(position)], 'mot', 'RT', 'temp' );
 end
 
 sca;
@@ -180,8 +199,9 @@ start = GetSecs;
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
-while temp != 'q' || 'w'
+while temp ~= 'q' || 'w'
     temp = KbName(keyCode);
+end
 ListenChar(0);
 RT = start - secs; %% temps de reaction a save
 end
