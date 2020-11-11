@@ -36,9 +36,11 @@ end
 %Cette partie permet d'afficher arrays de strings de facon aléatoire
 %Pour la stimulation finale, mettre le phrases dans des arrays
 %Pour les images, des loops vont aider
-A1= ["Good", "Meme"]; %Variables
-A2= ["Dune" "le"];
-A3= ["Figure", "Mathématique"];
+%Variables
+
+A1= ["Une", "pomme"];
+A1= ["Une", "banane"];
+A3= ["Une", "Mathématique"];
 A4= ["I", "Will", "Be", "Your", "Hero"];
 A5=["Damier" "Exercice"];
 %Mise en mémoire des images - dossier en construction (fruits / outils) -
