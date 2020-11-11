@@ -1,22 +1,13 @@
 %Squelette de travail
-
-% écran paramètres
-
-screens=Screen('Screens');
-screenNumber=max(screens);
-[width_in_mm, height_in_mm]=Screen('DisplaySize', screenNumber);
-resolutions = Screen('Resolution', screenNumber);
-pixel_in_mm = width_in_mm/resolutions.width;
-%feedback auditif vs visuel?
-
+subNum=1
 % Checks if file name already exists
-file_name = sprintf('TRAVAIL_CSF_sub%d_block%d', subNum, nBlock);
+file_name = sprintf('Squelette_sub%d', subNum);
 if fopen([file_name,'.mat'])>0
 	warning('This filename already exists.')
     reenter = input('Overwrite (y/n)? ', 's');
     if strcmp(reenter, 'n')
     	subNum = str2double(input('Enter new subject number: ', 's'));
-        nBlock = str2double(input('Enter new block number: ', 's'));
+        
     end
 end
 
@@ -31,39 +22,6 @@ for x = y
     disp(x)
 end
 %waitsecs(0.5);
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Cette partie permet d'afficher arrays de strings de facon aléatoire
-%Pour la stimulation finale, mettre le phrases dans des arrays
-%Pour les images, des loops vont aider
-A1= ["Good", "Meme"]; %Variables
-A2= ["Dune" "le"];
-A3= ["Figure", "Mathématique"];
-A4= ["I", "Will", "Be", "Your", "Hero"];
-A5=["Damier" "Exercice"];
-%Mise en mémoire des images - dossier en construction (fruits / outils) -
-%fruits sont en png, a voir pour outils - conversion possible
-I1=imread('Test.jpg');
-I2 = imread('dune2020_large.jpg');
-I3 = imread('image001.jpg');
-I4 = imread('Test2.jpg');
-I5 = imread('damier.png');
-%On peut probablement faire un loop ici...
-ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
-images = {I1 ; I2 ; I3; I4; I5};
-[~,idx] = sort(rand(size(ABC)))% Array du texte
-[~,idxIm] = sort(rand(size(images))); %Array random des images
-%Boucle qui cherche à changer la valeur dans les arrays
-for x = 1:size(ABC)  
-    montrer=(idx(x)); 
-    disp(ABC{montrer});
-    disp(size(ABC));
-  % figure, imshow(images{montrer}); % Permet d'apparier les images text
-   %WaitSecs(.05);
-    for y = 1:size(ABC{idx(x)}) %Cette boucle est un exemple de concaténation de texte à chaque mot dans les phrases
-        disp(ABC{montrer(y)}+("Hello"));
-    end
-end
 %%
 %Ceci est la boucle pour les images randomisées
 %for Z = 1:size(images)  
@@ -84,7 +42,7 @@ figure, imshow(grand_damier2);
 %pour clear le screen de ptb
 %ctrl-0.
 
-%randperm(64, 1) 
+%randperm(5, 1) 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -113,6 +71,7 @@ I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
 ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ABC))) %Permet de faire une série de valeurs randomisés
+idx=randperm(max(size(ABC)), max(size(ABC)));
 images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
