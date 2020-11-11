@@ -132,7 +132,10 @@ I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5] ; [UFS6];[LFS1]; [LFS2]; [LFS3] ; [LFS4]; [LFS5],;[ULG1]; [ULG2]; [ULS3] ; [ULS4]; [ULS5];[DFP1]; [DFP2]; [DFP3] ; [DFP4]; [DFP5]; [PFP1]; [PFP2]; [PFP3] ; [PFP4]; [PFP5]}; %on les met dans un array
+ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]; [UFS6]; [LFS1]; [LFS2]; [LFS3]; [LFS4]; [LFS5]; [LFS6];
+    [DFP1]; [DFP2]; [DFP3]; [DFP4]; [DFP5]; [DFP6]; [PFP1]; [PFP2]; [PFP3]; [PFP4]; [PFP5]; [PFP6]
+    [ULG1]; [ULG2]; [ULG3]; [ULG4]; [ULG5]; [ULG6]; [LLG1]; [LLG2]; [LLG3]; [LLG4]; [LLG5]; [LLG6];
+    [DLG1]; [DLG2]; [DLG3]; [DLG4]; [DLG5]; [DLG6]; [PLG1]; [PLG2]; [PLG3]; [PLG4]; [PLG5]; [PLG6]};%on les met dans un array
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
