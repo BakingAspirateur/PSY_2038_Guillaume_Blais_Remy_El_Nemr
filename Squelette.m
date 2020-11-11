@@ -100,10 +100,10 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
-A1= ["Good", "Meme"]; %Variables
-A2= ["Dune" "le"];
-A3= ["Figure", "Mathématique"];
-A4= ["I", "Will", "Be", "Your", "Hero"];
+A1= ["Une", "Pomme"]; %Variables
+A2= ["Une" "Banane"];
+A3= ["Une", "Peche"];
+A4= ["Un", "Melon d'Eau"];
 A5=["Damier" "Exercice"];
 I1=imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
