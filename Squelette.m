@@ -180,6 +180,7 @@ ListenChar(2);
 temp = KbName(keyCode); %%lettre a save
 while temp ~= 'q' || 'w'
     temp = KbName(keyCode);
+end
 ListenChar(0);
 RT = start - secs; %% temps de reaction a save
 end
