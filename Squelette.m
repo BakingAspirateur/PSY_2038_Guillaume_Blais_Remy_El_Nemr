@@ -111,13 +111,21 @@ LFS4 = ["Le", "melon"];
 LFS5 = ["La", "mangue"];
 LFS6 = ["La", "fraise"];
 
+ULG1 = ["Une", "patate"];
+ULG2 = ["Une", "banane"];
+ULG3 = ["Une", "peche"];
+ULG4 = ["Un", "melon"];
+ULG5 = ["Une", "mangue"];
+ULG6 = ["Une", "fraise"];
+
+
 I1 = imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
+ArrStr = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ABC))) %Permet de faire une série de valeurs randomisés
 images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
@@ -127,6 +135,7 @@ for z=1:size(ABC) %Ici le size fonctionne, donc de 1 à 5...
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
 Screen('Flip', windowPtr);
 WaitSecs(0.5);
+
 %remplacer la croix de fixation par une fonction
     montrer=idx(z); %montrer est ma valeur randomisée
     ending=max(size(ABC{montrer})); % Size ne fonctionne pas apres, so on trouve une fin à la phrase
@@ -145,6 +154,14 @@ WaitSecs(0.5);
     end
  Screen('Flip', windowPtr);
 WaitSecs(0.5); %Ici il faut attendre l'imput du participant
+%Input
+start = GetSecs;
+ListenChar(2);
+[secs, keyCode, deltaSecs] = KbWait([], 2);
+temp = KbName(keyCode); %%lettre a save
+ListenChar(0);
+RT = start - secs; %% temps de reaction a save
+
 end
 
 sca;
@@ -174,7 +191,9 @@ end
 
 
 %%entrée du clavier: 
-ListenChar(2)
-[secs, keyCode, deltaSecs] = KbWait([], 2)
-temp = KbName(keyCode)
+start = GetSecs;
+ListenChar(2);
+[secs, keyCode, deltaSecs] = KbWait([], 2);
+temp = KbName(keyCode); %%lettre a save
 ListenChar(0);
+RT = start - secs; %% temps de reaction a save
