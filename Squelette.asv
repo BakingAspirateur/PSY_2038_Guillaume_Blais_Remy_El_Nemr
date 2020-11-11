@@ -77,6 +77,21 @@ ULG4 = ["Un", "melon"];
 ULG5 = ["Une", "mangue"];
 ULG6 = ["Une", "fraise"];
 
+DFP1 = ["Des", "pommes"];
+DFP2 = ["Des", "bananes"];
+DFP3 = ["Des", "peches"];
+DFP4 = ["Des", "melons"];
+DFP5 = ["Des", "mangues"];
+DFP6 = ["Des", "fraises"];
+
+PFP1 = ["Plusieurs", "pommes"];
+PFP2 = ["Plusieurs", "bananes"];
+PFP3 = ["Plusieurs", "peches"];
+PFP4 = ["Plusieurs", "melons"];
+PFP5 = ["Plusieurs", "mangues"];
+PFP6 = ["Plusieurs", "fraises"];
+
+%Remy: Changer images, faire legumes, agrandir ArrStr
 
 I1 = imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
@@ -84,14 +99,14 @@ I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
+ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
 images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
-for z=1:size() %Ici le size fonctionne, donc de 1 à 5...
+for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
     Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
 Screen('Flip', windowPtr);
@@ -99,14 +114,14 @@ WaitSecs(0.5);
 
 %remplacer la croix de fixation par une fonction
     montrer=idx(z); %montrer est ma valeur randomisée
-    ending=max(size(ABC{montrer})); % Size ne fonctionne pas apres, so on trouve une fin à la phrase
+    ending=max(size(ArrStr{montrer})); % Size ne fonctionne pas apres, so on trouve une fin à la phrase
       texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois... c'est de la folie
    Screen('DrawTexture', windowPtr,texturePtr(1) );
     Screen('Flip', windowPtr)
     WaitSecs(1);
     for x=1:ending
         
-  Screen('DrawText', windowPtr,num2str(ABC{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ABC{montrer}(x))))*0.75)*(resolutions.width/250)), resolutions.height*0.48); 
+  Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*0.75)*(resolutions.width/250)), resolutions.height*0.48); 
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
   WaitSecs(0.3);
@@ -121,10 +136,12 @@ ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 ListenChar(0);
-RT = start - secs; %% temps de reaction a save
-mot=join(ABC{montrer});
+RT = secs - start; %% temps de reaction a save
+mot=join(ArrStr{montrer});
 %Ici on save le stuff
-save(['file_name_' num2str(position) ',mat'], 'mot' );
+position=z;
+mot=join(ArrStr{montrer});
+save(['file_name_' num2str(position) ',mat'], 'mot', 'RT', 'temp' );
 end
 
 sca;
@@ -159,11 +176,12 @@ function imput=entrer_imput
 %[secs, keyCode, deltaSecs] = KbWait([], 2)
 %temp = KbName(keyCode)
 %ListenChar(0);
-=======
 start = GetSecs;
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
+while temp != 'q' || 'w'
+    temp = KbName(keyCode);
 ListenChar(0);
 RT = start - secs; %% temps de reaction a save
 end

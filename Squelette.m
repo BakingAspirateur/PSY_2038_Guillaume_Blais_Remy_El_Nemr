@@ -91,6 +91,7 @@ PFP4 = ["Plusieurs", "melons"];
 PFP5 = ["Plusieurs", "mangues"];
 PFP6 = ["Plusieurs", "fraises"];
 
+%Remy: Changer images, faire legumes, agrandir ArrStr
 
 I1 = imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
@@ -179,6 +180,8 @@ start = GetSecs;
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
+while temp ~= 'q' || 'w'
+    temp = KbName(keyCode);
 ListenChar(0);
 RT = start - secs; %% temps de reaction a save
 end
