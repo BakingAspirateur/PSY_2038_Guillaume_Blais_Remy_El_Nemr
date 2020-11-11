@@ -36,11 +36,22 @@ end
 %Cette partie permet d'afficher arrays de strings de facon aléatoire
 %Pour la stimulation finale, mettre le phrases dans des arrays
 %Pour les images, des loops vont aider
-A1= ["Good", "Meme"]; %Variables
-A2= ["Dune" "le"];
-A3= ["Figure", "Mathématique"];
-A4= ["I", "Will", "Be", "Your", "Hero"];
-A5=["Damier" "Exercice"];
+%Variables
+
+UFS1 = ["Une", "pomme"];
+UFS2 = ["Une", "banane"];
+UFS3 = ["Une", "peche"];
+UFS4 = ["Un", "melon"];
+UFS5 = ["Une", "pomme"];
+UFS6 = ["Une", "fraise"];
+
+LFS1 = ["Une", "pomme"];
+LFS2 = ["Une", "banane"];
+LFS3 = ["Une", "peche"];
+LFS4 = ["Un", "melon"];
+LFS5 = ["Une", "pomme"];
+LFS6 = ["Une", "fraise"];
+
 %Mise en mémoire des images - dossier en construction (fruits / outils) -
 %fruits sont en png, a voir pour outils - conversion possible
 I1=imread('Test.jpg');
@@ -100,10 +111,10 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
-A1= ["Good", "Meme"]; %Variables
-A2= ["Dune" "le"];
-A3= ["Figure", "Mathématique"];
-A4= ["I", "Will", "Be", "Your", "Hero"];
+A1= ["Une", "Pomme"]; %Variables
+A2= ["Une" "Banane"];
+A3= ["Une", "Peche"];
+A4= ["Un", "Melon d'Eau"];
 A5=["Damier" "Exercice"];
 I1=imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
@@ -167,8 +178,8 @@ sca;
 end
 
 
-%%Loop d'entrée du clavier: 
+%%entrée du clavier: 
 ListenChar(2)
-%[secs, keyCode, deltaSecs] = KbWait([], 2)
-%%temp = KbName(keyCode)
-%%ListenChar(0);
+[secs, keyCode, deltaSecs] = KbWait([], 2)
+temp = KbName(keyCode)
+ListenChar(0);

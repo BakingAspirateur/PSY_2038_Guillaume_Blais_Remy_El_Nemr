@@ -38,11 +38,6 @@ end
 %Pour les images, des loops vont aider
 %Variables
 
-A1= ["Une", "pomme"];
-A1= ["Une", "banane"];
-A3= ["Une", "Mathématique"];
-A4= ["I", "Will", "Be", "Your", "Hero"];
-A5=["Damier" "Exercice"];
 %Mise en mémoire des images - dossier en construction (fruits / outils) -
 %fruits sont en png, a voir pour outils - conversion possible
 I1=imread('Test.jpg');
@@ -102,12 +97,21 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
-A1= ["Une", "Pomme"]; %Variables
-A2= ["Une" "Banane"];
-A3= ["Une", "Peche"];
-A4= ["Un", "Melon d'Eau"];
-A5=["Damier" "Exercice"];
-I1=imread('Test.jpg');
+UFS1 = ["Une", "pomme"];
+UFS2 = ["Une", "banane"];
+UFS3 = ["Une", "peche"];
+UFS4 = ["Un", "melon"];
+UFS5 = ["Une", "mangue"];
+UFS6 = ["Une", "fraise"];
+
+LFS1 = ["La", "pomme"];
+LFS2 = ["La", "banane"];
+LFS3 = ["La", "peche"];
+LFS4 = ["Le", "melon"];
+LFS5 = ["La", "mangue"];
+LFS6 = ["La", "fraise"];
+
+I1 =imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
