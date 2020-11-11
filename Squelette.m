@@ -165,3 +165,10 @@ Screen('Flip', windowPtr);
 WaitSecs(2);
 sca;
 end
+
+
+%%entrée du clavier: 
+ListenChar(2)
+[secs, keyCode, deltaSecs] = KbWait([], 2)
+temp = KbName(keyCode)
+ListenChar(0);
