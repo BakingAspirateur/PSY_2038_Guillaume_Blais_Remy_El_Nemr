@@ -54,7 +54,7 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
-UFS1 = ["Une", "pomme"];
+ = ["Une", "pomme"];
 UFS2 = ["Une", "banane"];
 UFS3 = ["Une", "peche"];
 UFS4 = ["Un", "melon"];
@@ -68,7 +68,6 @@ LFS4 = ["Le", "melon"];
 LFS5 = ["La", "mangue"];
 LFS6 = ["La", "fraise"];
 
-<<<<<<< HEAD
 ULS1 = ["Une", "patate"];
 ULS2 = ["Une", "banane"];
 ULS3 = ["Une", "peche"];
@@ -83,8 +82,6 @@ DLG4 = ["Un", "melon"];
 DLG5 = ["Une", "mangue"];
 DLG6 = ["Une", "fraise"];
 
-=======
->>>>>>> 966bb8f73483aab1956ca70f42b99343a1d671a0
 DFP1 = ["Des", "pommes"];
 DFP2 = ["Des", "bananes"];
 DFP3 = ["Des", "peches"];
@@ -121,11 +118,11 @@ DLG5 = ["Des", "citrouilles"];
 DLG6 = ["Des", "broccolis"];
 
 PLG1 = ["Plusieurs", "patates"];
-PLG2 = ["Des", "carottes"];
-PLG3 = ["Des", "tomates"];
-PLG4 = ["Des", "oignons"];
-PLG5 = ["Des", "citrouilles"];
-PLG6 = ["Des", "broccolis"];
+PLG2 = ["Plusieurs", "carottes"];
+PLG3 = ["Plusieurs", "tomates"];
+PLG4 = ["Plusieurs", "oignons"];
+PLG5 = ["Plusieurs", "citrouilles"];
+PLG6 = ["Plusieurs", "broccolis"];
 
 %Remy: Changer images, faire legumes, agrandir ArrStr
 
@@ -134,22 +131,48 @@ I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
+
+i_pommeS = ('apple.png');
+i_bananeS = ('banana.png');
+i_mangueS = ('mango.png');
+i_pecheS = ('peach.png');
+i_fraiseS = ('strawberry.png');
+i_melonS = ('melon.png');
+i_pommeP = ('Many_apple.png');
+i_bananeP = ('Many_banana.png');
+i_mangueP = ('Many_mango.png');
+i_peachP = ('Many_peach.png');
+i_fraiseP = ('Many_strawberry.png');
+i_melonP = ('Many_melon.png');
+i_broccoliS = ('broccoli.png');
+i_carotteS = ('carrot.png');
+i_onionsS = ('onion.png');
+i_patateS = ('potato.png');
+i_citrouilleS = ('pumpkin.png');
+i_tomateS = ('tomato.png');
+i_broccoliP = ('Many_broccoli.png');
+i_carotteP = ('Many_carrot.png');
+i_onionsP = ('Many_onion.png');
+i_patateP = ('Many_potato.png');
+i_citrouilleP = ('Many_pumpkin.png');
+i_tomateP = ('Many_tomato.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5] ; [UFS6];[LFS1]; [LFS2]; [LFS3] ; [LFS4]; [LFS5],;[ULG1]; [ULG2]; [ULS3] ; [ULS4]; [ULS5];[DFP1]; [DFP2]; [DFP3] ; [DFP4]; [DFP5]; [PFP1]; [PFP2]; [PFP3] ; [PFP4]; [PFP5]}; %on les met dans un array
+ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]; [UFS6]; [LFS1]; [LFS2]; [LFS3]; [LFS4]; [LFS5]; [LFS6];
+    [DFP1]; [DFP2]; [DFP3]; [DFP4]; [DFP5]; [DFP6]; [PFP1]; [PFP2]; [PFP3]; [PFP4]; [PFP5]; [PFP6]
+    [ULG1]; [ULG2]; [ULG3]; [ULG4]; [ULG5]; [ULG6]; [LLG1]; [LLG2]; [LLG3]; [LLG4]; [LLG5]; [LLG6];
+    [DLG1]; [DLG2]; [DLG3]; [DLG4]; [DLG5]; [DLG6]; [PLG1]; [PLG2]; [PLG3]; [PLG4]; [PLG5]; [PLG6]};%on les met dans un array
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
-images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
+images = {i_pommeS,i_pommeS i_bananeS,i_bananeS i_mangueS,i_mangueS i_pecheS,i_pecheS i_fraiseS,i_fraiseS, i_melonS,i_melonS i_pommeP,i_pommeP i_bananeP,i_bananeP, i_mangueP,i_mangueP, i_pecheP,i_pecheP,i_fraiseP,i_fraiseP,i_melonP,i_melonP};%Les images sont dans les arrays
+%Les images sont en doubles 
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
 
 %%
 %Main Loop
 for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
-    Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
-Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
-Screen('Flip', windowPtr);
-WaitSecs(0.5);
+    fabriquer_fixation(resolutions)
 
 %remplacer la croix de fixation par une fonction
     montrer=idx(z); %montrer est ma valeur randomisée
@@ -209,6 +232,7 @@ sca;
 end
 
 end
+%%
 function imput=entrer_imput
 %%entrée du clavier: 
 %ListenChar(2)

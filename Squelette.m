@@ -54,7 +54,7 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
-UFS1 = ["Une", "pomme"];
+ = ["Une", "pomme"];
 UFS2 = ["Une", "banane"];
 UFS3 = ["Une", "peche"];
 UFS4 = ["Un", "melon"];
@@ -131,6 +131,31 @@ I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
+
+i_pommeS = imread('apple.png');
+i_bananeS = imread('banana.png');
+i_mangueS = imread('mango.png');
+i_pecheS = imread('peach.png');
+i_fraiseS = imread('strawberry.png');
+i_melonS = imread('watermelon.png');
+i_pommeP = imread('Many_apple.png');
+i_bananeP = imread('Many_banana.png');
+i_mangueP = imread('Many_mango.png');
+i_pecheP = imread('Many_peach.png');
+i_fraiseP = imread('Many_strawberry.png');
+i_melonP = imread('Many_watermelon.png');
+i_broccoliS = imread('broccoli.png');
+i_carotteS = imread('carrot.png');
+i_onionS = imread('onion.png');
+i_patateS = imread('potato.png');
+i_citrouilleS = imread('pumpkin.png');
+i_tomateS = imread('tomato.png');
+i_broccoliP = imread('Many_broccoli.png');
+i_carotteP = imread('Many_carrot.png');
+i_onionP = imread('Many_onion.png');
+i_patateP = imread('Many_potato.png');
+i_citrouilleP = imread('Many_pumpkin.png');
+i_tomateP = imread('Many_tomato.png');
 %C'est tres contre intuitif, mais ca fonctionne
 ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]; [UFS6]; [LFS1]; [LFS2]; [LFS3]; [LFS4]; [LFS5]; [LFS6];
     [DFP1]; [DFP2]; [DFP3]; [DFP4]; [DFP5]; [DFP6]; [PFP1]; [PFP2]; [PFP3]; [PFP4]; [PFP5]; [PFP6]
@@ -139,17 +164,15 @@ ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]; [UFS6]; [LFS1]; [LFS2]; [LFS3
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
-images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
+images = {i_pommeS;i_pommeS; i_bananeS;i_bananeS; i_mangueS;i_mangueS; i_pecheS;i_pecheS; i_fraiseS;i_fraiseS; i_melonS;i_melonS; i_pommeP;i_pommeP; i_bananeP;i_bananeP; i_mangueP;i_mangueP; i_pecheP;i_pecheP;i_fraiseP;i_fraiseP;i_melonP;i_melonP; i_broccoliS; i_broccoliS; i_carotteS; i_carotteS; i_onionS; i_onionS;i_patateS; i_patateS; i_citrouilleS; i_citrouilleS; i_tomateS; i_tomateS;i_broccoliP; i_broccoliP; i_carotteP; i_carotteP; i_onionP; i_onionP;i_patateP; i_patateP; i_citrouilleP; i_citrouilleP; i_tomateP;i_tomateP };%Les images sont dans les arrays
+%Les images sont en doubles 
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
 
 %%
 %Main Loop
 for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
-    Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
-Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
-Screen('Flip', windowPtr);
-WaitSecs(0.5);
+    fabriquer_fixation(resolutions)
 
 %remplacer la croix de fixation par une fonction
     montrer=idx(z); %montrer est ma valeur randomisée
