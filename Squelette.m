@@ -232,15 +232,17 @@ function imput=entrer_imput
 %temp = KbName(keyCode)
 %ListenChar(0);
 start = GetSecs;
+exitKey = 'l';
 ListenChar(2);
-[secs, keyCode, deltaSecs] = KbWait([], 2);
+ListenChar(2);
+[secs1, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
-while temp ~= 'q'
-    [secs, keyCode, deltaSecs] = KbWait([], 2);
-    ListenChar(0);
-    sca
-    temp = KbName(keyCode);
+if temp == exitKey
+    sca;
 end
-ListenChar(0);
-RT = start - secs; %% temps de reaction a save
+while temp ~= 'q'
+    [secs2, keyCode, deltaSecs] = KbWait([], 2);
+    secs = secs1+secs2;
+    secs2 = secs1;
+temp = KbName(keyCode); %%lettre a save
 end
