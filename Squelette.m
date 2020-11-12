@@ -1,6 +1,6 @@
 function Experience = Squelette(subNum)
+
 %Squelette de travail
-subNum=1;
 % Checks if file name already exists
 file_name = sprintf('Squelette_sub%d', subNum);
 if fopen([file_name,'.mat'])>0
@@ -16,45 +16,13 @@ key1 = 'q'; %Touche pour Congruent %Utiliser seulement la main gauche!
 key2 = 'p'; % Touche pour incongruent
 frequencies = 1; %Le nombre de stimuli total
 
-<<<<<<< HEAD
-=======
-
-y = [1,3,2,8];
-for x = y
-    disp(x)
-end
-%waitsecs(0.5);
+%<<<<<<< HEAD
+%=======
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Cette partie permet d'afficher arrays de strings de facon aléatoire
-%Pour la stimulation finale, mettre le phrases dans des arrays
-%Pour les images, des loops vont aider
-%Variables
 
 %Mise en mémoire des images - dossier en construction (fruits / outils) -
 %fruits sont en png, a voir pour outils - conversion possible
-I1=imread('Test.jpg');
-I2 = imread('dune2020_large.jpg');
-I3 = imread('image001.jpg');
-I4 = imread('Test2.jpg');
-I5 = imread('damier.png');
-%On peut probablement faire un loop ici...
-ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
-images = {I1 ; I2 ; I3; I4; I5};
-[~,idx] = sort(rand(size(ABC)))% Array du texte
-[~,idxIm] = sort(rand(size(images))); %Array random des images
-%Boucle qui cherche à changer la valeur dans les arrays
-for x = 1:size(ABC)  
-    montrer=(idx(x)); 
-    disp(ABC{montrer});
-    disp(size(ABC));
-  % figure, imshow(images{montrer}); % Permet d'apparier les images text
-   %WaitSecs(.05);
-    for y = 1:size(ABC{idx(x)}) %Cette boucle est un exemple de concaténation de texte à chaque mot dans les phrases
-        disp(ABC{montrer(y)}+("Hello"));
-    end
-end
->>>>>>> 941a8e49134faa5197fc83888c10428b148b2090
 %%
 %Ceci est la boucle pour les images randomisées
 %for Z = 1:size(images)  
@@ -145,20 +113,18 @@ WaitSecs(0.5);
     end
  Screen('Flip', windowPtr);
 WaitSecs(0.5); %Ici il faut attendre l'imput du participant
-<<<<<<< HEAD
-position=z;
-mot=join(ABC{montrer});
-save(['file_name_' num2str(position) ',mat'], 'mot' );
-=======
+%=======
 %Input
+
 start = GetSecs;
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 ListenChar(0);
 RT = start - secs; %% temps de reaction a save
-
->>>>>>> 941a8e49134faa5197fc83888c10428b148b2090
+mot=join(ABC{montrer});
+%Ici on save le stuff
+save(['file_name_' num2str(position) ',mat'], 'mot' );
 end
 
 sca;
@@ -187,8 +153,8 @@ sca;
 end
 
 end
+function imput=entrer_imput
 %%entrée du clavier: 
-<<<<<<< HEAD
 %ListenChar(2)
 %[secs, keyCode, deltaSecs] = KbWait([], 2)
 %temp = KbName(keyCode)
@@ -200,4 +166,4 @@ ListenChar(2);
 temp = KbName(keyCode); %%lettre a save
 ListenChar(0);
 RT = start - secs; %% temps de reaction a save
->>>>>>> 941a8e49134faa5197fc83888c10428b148b2090
+end
