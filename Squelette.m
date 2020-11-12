@@ -144,10 +144,15 @@ i_patateP = imread('Many_potato.png');
 i_citrouilleP = imread('Many_pumpkin.png');
 i_tomateP = imread('Many_tomato.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]; [UFS6]; [LFS1]; [LFS2]; [LFS3]; [LFS4]; [LFS5]; [LFS6];
-    [DFP1]; [DFP2]; [DFP3]; [DFP4]; [DFP5]; [DFP6]; [PFP1]; [PFP2]; [PFP3]; [PFP4]; [PFP5]; [PFP6]
-    [ULG1]; [ULG2]; [ULG3]; [ULG4]; [ULG5]; [ULG6]; [LLG1]; [LLG2]; [LLG3]; [LLG4]; [LLG5]; [LLG6];
-    [DLG1]; [DLG2]; [DLG3]; [DLG4]; [DLG5]; [DLG6]; [PLG1]; [PLG2]; [PLG3]; [PLG4]; [PLG5]; [PLG6]};%on les met dans un array
+ArrStr = {[mot_pommeSU]; [mot_pommeSL]; [mot_bananeSU] ; [mot_bananeSL]; [mot_mangueSU]; [mot_mangueSL]; 
+    [mot_pecheSU]; [mot_pecheSL]; [mot_fraiseSU]; [mot_fraiseSL]; [mot_melonSU]; [mot_melonSL];
+    [mot_pommePD]; [mot_pommePP]; [mot_bananePD]; [mot_bananePP]; [mot_manguePD]; [mot_manguePP];
+    [mot_pechePD]; [mot_pechePP]; [mot_fraisePD]; [mot_fraisePP]; [mot_melonPD]; [mot_melonPP];
+    [mot_broccoliSU]; [mot_broccoliSL]; [mot_carotteSU]; [mot_carotteSL]; [mot_oignonSU]; [mot_oignonSL];
+    [mot_patateSU]; [mot_patateSL]; [mot_citrouilleSU]; [mot_citrouilleSL]; [mot_tomateSU]; [mot_tomateSL]; 
+    [mot_broccoliPD]; [mot_broccoliPP]; [mot_carottePD]; [mot_carottePP]; [mot_oignonPD]; [mot_oignonPP]; 
+    [mot_patatePD]; [mot_patatePP]; [mot_citrouillePD]; [mot_citrouillePP]; [mot_tomatePD]; [mot_tomatePP];};%on les met dans un array
+
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
