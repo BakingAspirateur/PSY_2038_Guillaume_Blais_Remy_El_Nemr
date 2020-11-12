@@ -83,8 +83,6 @@ DLG4 = ["Un", "melon"];
 DLG5 = ["Une", "mangue"];
 DLG6 = ["Une", "fraise"];
 
-=======
->>>>>>> 966bb8f73483aab1956ca70f42b99343a1d671a0
 DFP1 = ["Des", "pommes"];
 DFP2 = ["Des", "bananes"];
 DFP3 = ["Des", "peches"];
@@ -209,6 +207,7 @@ sca;
 end
 
 end
+%%
 function imput=entrer_imput
 %%entrée du clavier: 
 %ListenChar(2)
