@@ -54,75 +54,62 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
- = ["Une", "pomme"];
-UFS2 = ["Une", "banane"];
-UFS3 = ["Une", "peche"];
-UFS4 = ["Un", "melon"];
-UFS5 = ["Une", "mangue"];
-UFS6 = ["Une", "fraise"];
+mot_pommeSU = ["Une", "pomme"];
+mot_bananeSU = ["Une", "banane"];
+mot_pecheSU = ["Une", "peche"];
+mot_melonSU = ["Un", "melon"];
+mot_mangueSU = ["Une", "mangue"];
+mot_fraiseSU = ["Une", "fraise"];
 
-LFS1 = ["La", "pomme"];
-LFS2 = ["La", "banane"];
-LFS3 = ["La", "peche"];
-LFS4 = ["Le", "melon"];
-LFS5 = ["La", "mangue"];
-LFS6 = ["La", "fraise"];
+mot_pommeSL = ["La", "pomme"];
+mot_bananeSL = ["La", "banane"];
+mot_pecheSL = ["La", "peche"];
+mot_melonSL = ["Le", "melon"];
+mot_mangueSL = ["La", "mangue"];
+mot_fraiseSL = ["La", "fraise"];
 
-ULS1 = ["Une", "patate"];
-ULS2 = ["Une", "banane"];
-ULS3 = ["Une", "peche"];
-ULS4 = ["Un", "melon"];
-ULS5 = ["Une", "mangue"];
-ULS6 = ["Une", "fraise"];
 
-DLG1 = ["Une", "patate"];
-DLG2 = ["Une", "banane"];
-DLG3 = ["Une", "peche"];
-DLG4 = ["Un", "melon"];
-DLG5 = ["Une", "mangue"];
-DLG6 = ["Une", "fraise"];
+mot_pommePD = ["Des", "pommes"];
+mot_bananePD = ["Des", "bananes"];
+mot_pechePD = ["Des", "peches"];
+mot_melonPD = ["Des", "melons"];
+mot_manguePD = ["Des", "mangues"];
+mot_fraisePD = ["Des", "fraises"];
 
-DFP1 = ["Des", "pommes"];
-DFP2 = ["Des", "bananes"];
-DFP3 = ["Des", "peches"];
-DFP4 = ["Des", "melons"];
-DFP5 = ["Des", "mangues"];
-DFP6 = ["Des", "fraises"];
+mot_pommePP = ["Plusieurs", "pommes"];
+mot_bananePP = ["Plusieurs", "bananes"];
+mot_pechePP = ["Plusieurs", "peches"];
+mot_melonPP = ["Plusieurs", "melons"];
+mot_manguePP = ["Plusieurs", "mangues"];
+mot_fraisePP = ["Plusieurs", "fraises"];
 
-PFP1 = ["Plusieurs", "pommes"];
-PFP2 = ["Plusieurs", "bananes"];
-PFP3 = ["Plusieurs", "peches"];
-PFP4 = ["Plusieurs", "melons"];
-PFP5 = ["Plusieurs", "mangues"];
-PFP6 = ["Plusieurs", "fraises"];
+mot_patateSU = ["Une", "patate"];
+mot_carotteSU = ["Une", "carotte"];
+mot_tomateSU = ["Une", "tomate"];
+mot_oignonSU = ["Un", "oignon"];
+mot_citrouilleSU = ["Une", "citrouille"];
+mot_broccoliSU = ["Un", "broccoli"];
 
-ULG1 = ["Une", "patate"];
-ULG2 = ["Une", "carotte"];
-ULG3 = ["Une", "tomate"];
-ULG4 = ["Un", "oignon"];
-ULG5 = ["Une", "citrouille"];
-ULG6 = ["Un", "broccoli"];
+mot_patateSL = ["La", "patate"];
+mot_carotteSL = ["La", "carotte"];
+mot_tomateSL = ["La", "tomate"];
+mot_oignonSL = ["L'", "oignon"];
+mot_citrouilleSL = ["La", "citrouille"];
+mot_broccoliSL = ["Le", "broccoli"];
 
-LLG1 = ["La", "patate"];
-LLG2 = ["La", "carotte"];
-LLG3 = ["La", "tomate"];
-LLG4 = ["L'", "oignon"];
-LLG5 = ["La", "citrouille"];
-LLG6 = ["Le", "broccoli"];
+mot_patatePD = ["Des", "patates"];
+mot_carottePD = ["Des", "carottes"];
+mot_tomatePD = ["Des", "tomates"];
+mot_oignonPD = ["Des", "oignons"];
+mot_citrouillePD = ["Des", "citrouilles"];
+mot_broccoliPD = ["Des", "broccolis"];
 
-DLG1 = ["Des", "patates"];
-DLG2 = ["Des", "carottes"];
-DLG3 = ["Des", "tomates"];
-DLG4 = ["Des", "oignons"];
-DLG5 = ["Des", "citrouilles"];
-DLG6 = ["Des", "broccolis"];
-
-PLG1 = ["Plusieurs", "patates"];
-PLG2 = ["Plusieurs", "carottes"];
-PLG3 = ["Plusieurs", "tomates"];
-PLG4 = ["Plusieurs", "oignons"];
-PLG5 = ["Plusieurs", "citrouilles"];
-PLG6 = ["Plusieurs", "broccolis"];
+mot_patatePP = ["Plusieurs", "patates"];
+mot_carottePP = ["Plusieurs", "carottes"];
+mot_tomatePP = ["Plusieurs", "tomates"];
+mot_oignonPP = ["Plusieurs", "oignons"];
+mot_citrouillePP = ["Plusieurs", "citrouilles"];
+mot_broccoliPP = ["Plusieurs", "broccolis"];
 
 %Remy: Changer images, faire legumes, agrandir ArrStr
 
