@@ -68,7 +68,6 @@ LFS4 = ["Le", "melon"];
 LFS5 = ["La", "mangue"];
 LFS6 = ["La", "fraise"];
 
-<<<<<<< HEAD
 ULS1 = ["Une", "patate"];
 ULS2 = ["Une", "banane"];
 ULS3 = ["Une", "peche"];
