@@ -11,6 +11,7 @@ if fopen([file_name,'.mat'])>0
         
     end
 end
+save(file_name);
 %Mettre les constantes ici/ les stimuli déja fait, s'ils ne sont pas fait
 key1 = 'q'; %Touche pour Congruent %Utiliser seulement la main gauche!
 key2 = 'e'; % Touche pour incongruent
@@ -151,6 +152,7 @@ idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
 images = {i_pommeS;i_pommeS; i_bananeS;i_bananeS; i_mangueS;i_mangueS; i_pecheS;i_pecheS; i_fraiseS;i_fraiseS; i_melonS;i_melonS; i_pommeP;i_pommeP; i_bananeP;i_bananeP; i_mangueP;i_mangueP; i_pecheP;i_pecheP;i_fraiseP;i_fraiseP;i_melonP;i_melonP; i_broccoliS; i_broccoliS; i_carotteS; i_carotteS; i_onionS; i_onionS;i_patateS; i_patateS; i_citrouilleS; i_citrouilleS; i_tomateS; i_tomateS;i_broccoliP; i_broccoliP; i_carotteP; i_carotteP; i_onionP; i_onionP;i_patateP; i_patateP; i_citrouilleP; i_citrouilleP; i_tomateP;i_tomateP };%Les images sont dans les arrays
 %Les images sont en doubles 
+images=changer_taille_image(images)%Cette fonction va resize les images
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
 
@@ -183,8 +185,10 @@ RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
 %Ici on save le stuff
 position=z;
 mot=join(ArrStr{montrer});
-Reaction=RT[1]
-save([file_name '_'  num2str(position)], 'mot','RT[1]' ,'RT[2]');
+Reaction=RT{1};
+Touche=RT{2};
+%save([file_name '_'  num2str(position)], 'mot','RT', 'Reaction', 'Touche');
+%Cette partie permet de sauvegarder
 end
 ListenChar(1);
 sca;
@@ -216,11 +220,6 @@ end
 %%
 %%
 function RT=entrer_imput(resolutions,windowPtr)
-%%entrée du clavier: 
-%ListenChar(2)
-%[secs, keyCode, deltaSecs] = KbWait([], 2)
-%temp = KbName(keyCode)
-%ListenChar(0);
 start = GetSecs;
 exitKey = 'l';
 ListenChar(2);
@@ -232,8 +231,8 @@ while ~strcmp(temp, 'q') %TROUVER FACON DE METTRE 2E LETTRE
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
     if  strcmp(temp, exitKey)
-    Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
-    Screen('DrawText', windowPtr, 'TOUCHE POUR SORTIR', resolutions.width*.37, resolutions.height*.60);   
+    %Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
+    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.45, resolutions.height*.50);   
     Screen('Flip', windowPtr);
     WaitSecs(2);
     ListenChar(1);
@@ -241,9 +240,18 @@ temp = KbName(keyCode); %%lettre a save
     break
 end
     [secs, keyCode, deltaSecs] = KbWait([], 2);
-    RT = secs - start;
+   % RT = secs - start;
 temp = KbName(keyCode); %%lettre a save
 end
 RT = secs - start;
-RT= [RT, temp];
+RT = {RT, temp};
+
+end
+%%
+function images = changer_taille_image(images)
+
+for taille_array = 1: max(size(images))
+    
+    images{taille_array}=imresize(images{taille_array}, [400,400]);
+end
 end

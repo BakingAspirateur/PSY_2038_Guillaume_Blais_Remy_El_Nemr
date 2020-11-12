@@ -152,13 +152,14 @@ idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
 images = {i_pommeS;i_pommeS; i_bananeS;i_bananeS; i_mangueS;i_mangueS; i_pecheS;i_pecheS; i_fraiseS;i_fraiseS; i_melonS;i_melonS; i_pommeP;i_pommeP; i_bananeP;i_bananeP; i_mangueP;i_mangueP; i_pecheP;i_pecheP;i_fraiseP;i_fraiseP;i_melonP;i_melonP; i_broccoliS; i_broccoliS; i_carotteS; i_carotteS; i_onionS; i_onionS;i_patateS; i_patateS; i_citrouilleS; i_citrouilleS; i_tomateS; i_tomateS;i_broccoliP; i_broccoliP; i_carotteP; i_carotteP; i_onionP; i_onionP;i_patateP; i_patateP; i_citrouilleP; i_citrouilleP; i_tomateP;i_tomateP };%Les images sont dans les arrays
 %Les images sont en doubles 
+images=changer_taille_image(images)%Cette fonction va resize les images
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
 
 %%
 %Main Loop
 for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
-    fabriquer_fixation(resolutions)
+    fabriquer_fixation(resolutions,windowPtr);
 
 %remplacer la croix de fixation par une fonction
     montrer=idx(z); %montrer est ma valeur randomisée
@@ -168,8 +169,9 @@ for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
     Screen('Flip', windowPtr)
     WaitSecs(1);
     for x=1:ending
+        Screen('TextSize', windowPtr, 100);
         Screen(windowPtr,'TextFont', 'Garamond');
-  Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*0.75)*(resolutions.width/250)), resolutions.height*0.48); 
+  Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*2)*(resolutions.width/250)), resolutions.height*0.465); 
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
   WaitSecs(0.3);
@@ -186,15 +188,16 @@ position=z;
 mot=join(ArrStr{montrer});
 Reaction=RT{1};
 Touche=RT{2};
-save([file_name '_'  num2str(position)], 'mot','RT', 'Reaction', 'Touche');
+%save([file_name '_'  num2str(position)], 'mot','RT', 'Reaction', 'Touche');
+%Cette partie permet de sauvegarder
 end
 ListenChar(1);
 sca;
-
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %Voici la fonction pour la croix de fixation
-function croix_fixation = fabriquer_fixation(resolutions)
+function croix_fixation = fabriquer_fixation(resolutions,windowPtr)
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
 Screen('Flip', windowPtr);
@@ -203,8 +206,8 @@ end
 
 %%
 %Voici la fonction pour l'affichage de la commande
-function commande=afficher_commande(resolutions)
-[windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]);
+function commande=afficher_commande(resolutions, windowPtr)
+%[windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]);
 Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
 Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.57, resolutions.height*.58, resolutions.width*.66, resolutions.height*.65]);
 Screen('DrawText', windowPtr, 'Q=Congruent', resolutions.width*.37, resolutions.height*.60);
@@ -214,15 +217,9 @@ WaitSecs(2);
 sca;
 end
 
-end
-%%
+%end
 %%
 function RT=entrer_imput(resolutions,windowPtr)
-%%entrée du clavier: 
-%ListenChar(2)
-%[secs, keyCode, deltaSecs] = KbWait([], 2)
-%temp = KbName(keyCode)
-%ListenChar(0);
 start = GetSecs;
 exitKey = 'l';
 ListenChar(2);
@@ -234,8 +231,8 @@ while ~strcmp(temp, 'q') %TROUVER FACON DE METTRE 2E LETTRE
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
     if  strcmp(temp, exitKey)
-    Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
-    Screen('DrawText', windowPtr, 'TOUCHE POUR SORTIR', resolutions.width*.37, resolutions.height*.60);   
+    %Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
+    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.28, resolutions.height*.465);   
     Screen('Flip', windowPtr);
     WaitSecs(2);
     ListenChar(1);
@@ -249,4 +246,12 @@ end
 RT = secs - start;
 RT = {RT, temp};
 
+end
+%%
+function images = changer_taille_image(images)
+
+for taille_array = 1: max(size(images))
+    
+    images{taille_array}=imresize(images{taille_array}, [400,400]);
+end
 end
