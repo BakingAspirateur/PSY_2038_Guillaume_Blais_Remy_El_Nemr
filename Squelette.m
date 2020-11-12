@@ -16,6 +16,45 @@ key1 = 'q'; %Touche pour Congruent %Utiliser seulement la main gauche!
 key2 = 'p'; % Touche pour incongruent
 frequencies = 1; %Le nombre de stimuli total
 
+<<<<<<< HEAD
+=======
+
+y = [1,3,2,8];
+for x = y
+    disp(x)
+end
+%waitsecs(0.5);
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Cette partie permet d'afficher arrays de strings de facon aléatoire
+%Pour la stimulation finale, mettre le phrases dans des arrays
+%Pour les images, des loops vont aider
+%Variables
+
+%Mise en mémoire des images - dossier en construction (fruits / outils) -
+%fruits sont en png, a voir pour outils - conversion possible
+I1=imread('Test.jpg');
+I2 = imread('dune2020_large.jpg');
+I3 = imread('image001.jpg');
+I4 = imread('Test2.jpg');
+I5 = imread('damier.png');
+%On peut probablement faire un loop ici...
+ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
+images = {I1 ; I2 ; I3; I4; I5};
+[~,idx] = sort(rand(size(ABC)))% Array du texte
+[~,idxIm] = sort(rand(size(images))); %Array random des images
+%Boucle qui cherche à changer la valeur dans les arrays
+for x = 1:size(ABC)  
+    montrer=(idx(x)); 
+    disp(ABC{montrer});
+    disp(size(ABC));
+  % figure, imshow(images{montrer}); % Permet d'apparier les images text
+   %WaitSecs(.05);
+    for y = 1:size(ABC{idx(x)}) %Cette boucle est un exemple de concaténation de texte à chaque mot dans les phrases
+        disp(ABC{montrer(y)}+("Hello"));
+    end
+end
+>>>>>>> 941a8e49134faa5197fc83888c10428b148b2090
 %%
 %Ceci est la boucle pour les images randomisées
 %for Z = 1:size(images)  
@@ -49,18 +88,35 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
-A1= ["Une", "Pomme"]; %Variables
-A2= ["Une" "Banane"];
-A3= ["Une", "Peche"];
-A4= ["Un", "Melon d'Eau"];
-A5=["Damier" "Exercice"];
-I1=imread('Test.jpg');
+UFS1 = ["Une", "pomme"];
+UFS2 = ["Une", "banane"];
+UFS3 = ["Une", "peche"];
+UFS4 = ["Un", "melon"];
+UFS5 = ["Une", "mangue"];
+UFS6 = ["Une", "fraise"];
+
+LFS1 = ["La", "pomme"];
+LFS2 = ["La", "banane"];
+LFS3 = ["La", "peche"];
+LFS4 = ["Le", "melon"];
+LFS5 = ["La", "mangue"];
+LFS6 = ["La", "fraise"];
+
+ULG1 = ["Une", "patate"];
+ULG2 = ["Une", "banane"];
+ULG3 = ["Une", "peche"];
+ULG4 = ["Un", "melon"];
+ULG5 = ["Une", "mangue"];
+ULG6 = ["Une", "fraise"];
+
+
+I1 = imread('Test.jpg');
 I2 = imread('dune2020_large.jpg');
 I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
+ArrStr = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ABC))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ABC)), max(size(ABC)));
 rng='shuffle';
@@ -72,6 +128,7 @@ for z=1:size(ABC) %Ici le size fonctionne, donc de 1 à 5...
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
 Screen('Flip', windowPtr);
 WaitSecs(0.5);
+
 %remplacer la croix de fixation par une fonction
     montrer=idx(z); %montrer est ma valeur randomisée
     ending=max(size(ABC{montrer})); % Size ne fonctionne pas apres, so on trouve une fin à la phrase
@@ -88,9 +145,20 @@ WaitSecs(0.5);
     end
  Screen('Flip', windowPtr);
 WaitSecs(0.5); %Ici il faut attendre l'imput du participant
+<<<<<<< HEAD
 position=z;
 mot=join(ABC{montrer});
 save(['file_name_' num2str(position) ',mat'], 'mot' );
+=======
+%Input
+start = GetSecs;
+ListenChar(2);
+[secs, keyCode, deltaSecs] = KbWait([], 2);
+temp = KbName(keyCode); %%lettre a save
+ListenChar(0);
+RT = start - secs; %% temps de reaction a save
+
+>>>>>>> 941a8e49134faa5197fc83888c10428b148b2090
 end
 
 sca;
@@ -120,7 +188,16 @@ end
 
 end
 %%entrée du clavier: 
+<<<<<<< HEAD
 %ListenChar(2)
 %[secs, keyCode, deltaSecs] = KbWait([], 2)
 %temp = KbName(keyCode)
 %ListenChar(0);
+=======
+start = GetSecs;
+ListenChar(2);
+[secs, keyCode, deltaSecs] = KbWait([], 2);
+temp = KbName(keyCode); %%lettre a save
+ListenChar(0);
+RT = start - secs; %% temps de reaction a save
+>>>>>>> 941a8e49134faa5197fc83888c10428b148b2090
