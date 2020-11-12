@@ -2,7 +2,7 @@ function experience = Squelette(subNum)
 
 %Squelette de travail
 % Checks if file name already exists
-file_name = sprintf('Squelette_sub%d', subNum);
+file_name = sprintf('Squelette_sujet%d', subNum);
 if fopen([file_name,'.mat'])>0
 	warning('This filename already exists.')
     reenter = input('Overwrite (y/n)? ', 's');
@@ -13,11 +13,9 @@ if fopen([file_name,'.mat'])>0
 end
 %Mettre les constantes ici/ les stimuli déja fait, s'ils ne sont pas fait
 key1 = 'q'; %Touche pour Congruent %Utiliser seulement la main gauche!
-key2 = 'p'; % Touche pour incongruent
+key2 = 'e'; % Touche pour incongruent
 frequencies = 1; %Le nombre de stimuli total
 
-%<<<<<<< HEAD
-%=======
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -140,7 +138,7 @@ mot=join(ArrStr{montrer});
 %Ici on save le stuff
 position=z;
 mot=join(ArrStr{montrer});
-save(['file_name_' num2str(position) ',mat'], 'mot', 'RT', 'temp' );
+save([file_name '_'  num2str(position)], 'mot', 'RT', 'temp' );
 end
 
 sca;
