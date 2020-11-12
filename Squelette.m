@@ -98,7 +98,7 @@ I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
+ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
@@ -135,10 +135,12 @@ ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 ListenChar(0);
-RT = start - secs; %% temps de reaction a save
+RT = secs - start; %% temps de reaction a save
 mot=join(ArrStr{montrer});
 %Ici on save le stuff
-save(['file_name_' num2str(position) ',mat'], 'mot' );
+position=z;
+mot=join(ArrStr{montrer});
+save(['file_name_' num2str(position) ',mat'], 'mot', 'RT', 'temp' );
 end
 
 sca;
@@ -173,7 +175,6 @@ function imput=entrer_imput
 %[secs, keyCode, deltaSecs] = KbWait([], 2)
 %temp = KbName(keyCode)
 %ListenChar(0);
-=======
 start = GetSecs;
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
