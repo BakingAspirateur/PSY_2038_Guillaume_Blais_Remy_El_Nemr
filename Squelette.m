@@ -151,7 +151,7 @@ ArrStr = {[mot_pommeSU]; [mot_pommeSL]; [mot_bananeSU] ; [mot_bananeSL]; [mot_ma
     [mot_broccoliSU]; [mot_broccoliSL]; [mot_carotteSU]; [mot_carotteSL]; [mot_oignonSU]; [mot_oignonSL];
     [mot_patateSU]; [mot_patateSL]; [mot_citrouilleSU]; [mot_citrouilleSL]; [mot_tomateSU]; [mot_tomateSL]; 
     [mot_broccoliPD]; [mot_broccoliPP]; [mot_carottePD]; [mot_carottePP]; [mot_oignonPD]; [mot_oignonPP]; 
-    [mot_patatePD]; [mot_patatePP]; [mot_citrouillePD]; [mot_citrouillePP]; [mot_tomatePD]; [mot_tomatePP];};%on les met dans un array
+    [mot_patatePD]; [mot_patatePP]; [mot_citrouillePD]; [mot_citrouillePP]; [mot_tomatePD]; [mot_tomatePP]};%on les met dans un array
 
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
