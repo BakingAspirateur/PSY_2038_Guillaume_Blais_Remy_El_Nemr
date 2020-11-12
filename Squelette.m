@@ -1,5 +1,6 @@
+function Experience = Squelette(subNum)
 %Squelette de travail
-subNum=1
+subNum=1;
 % Checks if file name already exists
 file_name = sprintf('Squelette_sub%d', subNum);
 if fopen([file_name,'.mat'])>0
@@ -10,18 +11,11 @@ if fopen([file_name,'.mat'])>0
         
     end
 end
-
 %Mettre les constantes ici/ les stimuli déja fait, s'ils ne sont pas fait
 key1 = 'q'; %Touche pour Congruent %Utiliser seulement la main gauche!
 key2 = 'p'; % Touche pour incongruent
 frequencies = 1; %Le nombre de stimuli total
 
-
-y = [1,3,2,8];
-for x = y
-    disp(x)
-end
-%waitsecs(0.5);
 %%
 %Ceci est la boucle pour les images randomisées
 %for Z = 1:size(images)  
@@ -36,9 +30,6 @@ end
 randi([1 30]) %serait randperm(30,30)?
 
 %Ces fonctions d'enregistrement d'image seront importantes.
-im = imread('Test.jpg');
-imshow(im)
-figure, imshow(grand_damier2);
 %pour clear le screen de ptb
 %ctrl-0.
 
@@ -72,6 +63,7 @@ I5 = imread('damier.png');
 ABC = {[A1]; [A2]; [A3] ; [A4]; [A5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ABC))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ABC)), max(size(ABC)));
+rng='shuffle';
 images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
@@ -93,11 +85,12 @@ WaitSecs(0.5);
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
   WaitSecs(0.3);
-  Screen('Flip', windowPtr);
-  WaitSecs(0.2);
     end
  Screen('Flip', windowPtr);
 WaitSecs(0.5); %Ici il faut attendre l'imput du participant
+position=z;
+mot=join(ABC{montrer});
+save(['file_name_' num2str(position) ',mat'], 'mot' );
 end
 
 sca;
@@ -125,9 +118,9 @@ WaitSecs(2);
 sca;
 end
 
-
+end
 %%entrée du clavier: 
-ListenChar(2)
-[secs, keyCode, deltaSecs] = KbWait([], 2)
-temp = KbName(keyCode)
-ListenChar(0);
+%ListenChar(2)
+%[secs, keyCode, deltaSecs] = KbWait([], 2)
+%temp = KbName(keyCode)
+%ListenChar(0);
