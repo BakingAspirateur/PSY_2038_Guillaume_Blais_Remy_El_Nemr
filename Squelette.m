@@ -96,7 +96,7 @@ I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]}; %on les met dans un array
+ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5];[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5],;[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5];[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]; [UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
