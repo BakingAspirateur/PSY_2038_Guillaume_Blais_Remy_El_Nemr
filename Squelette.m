@@ -235,7 +235,10 @@ start = GetSecs;
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
-while temp ~= 'q' || 'w'
+if temp = "l"
+    sca;
+end
+while temp ~= "q" || "w"
     temp = KbName(keyCode);
 end
 ListenChar(0);
