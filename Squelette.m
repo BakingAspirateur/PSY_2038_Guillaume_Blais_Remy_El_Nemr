@@ -68,12 +68,19 @@ LFS4 = ["Le", "melon"];
 LFS5 = ["La", "mangue"];
 LFS6 = ["La", "fraise"];
 
-ULG1 = ["Une", "patate"];
-ULG2 = ["Une", "banane"];
-ULG3 = ["Une", "peche"];
-ULG4 = ["Un", "melon"];
-ULG5 = ["Une", "mangue"];
-ULG6 = ["Une", "fraise"];
+ULS1 = ["Une", "patate"];
+ULS2 = ["Une", "banane"];
+ULS3 = ["Une", "peche"];
+ULS4 = ["Un", "melon"];
+ULS5 = ["Une", "mangue"];
+ULS6 = ["Une", "fraise"];
+
+DLG1 = ["Une", "patate"];
+DLG2 = ["Une", "banane"];
+DLG3 = ["Une", "peche"];
+DLG4 = ["Un", "melon"];
+DLG5 = ["Une", "mangue"];
+DLG6 = ["Une", "fraise"];
 
 DFP1 = ["Des", "pommes"];
 DFP2 = ["Des", "bananes"];
@@ -97,13 +104,16 @@ I3 = imread('image001.jpg');
 I4 = imread('Test2.jpg');
 I5 = imread('damier.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5];[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5],;[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5];[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]; [UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5]}; %on les met dans un array
+ArrStr = {[UFS1]; [UFS2]; [UFS3] ; [UFS4]; [UFS5] ; [UFS6];[LFS1]; [LFS2]; [LFS3] ; [LFS4]; [LFS5],;[ULG1]; [ULG2]; [ULS3] ; [ULS4]; [ULS5];[DFP1]; [DFP2]; [DFP3] ; [DFP4]; [DFP5]; [PFP1]; [PFP2]; [PFP3] ; [PFP4]; [PFP5]}; %on les met dans un array
 [~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
 images = {I1 ; I2 ; I3; I4; I5};%Les images sont dans les arrays
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
+
+%%
+%Main Loop
 for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
     Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
@@ -118,7 +128,7 @@ WaitSecs(0.5);
     Screen('Flip', windowPtr)
     WaitSecs(1);
     for x=1:ending
-        
+        Screen(windowPtr,'TextFont', 'Garamond');
   Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*0.75)*(resolutions.width/250)), resolutions.height*0.48); 
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
