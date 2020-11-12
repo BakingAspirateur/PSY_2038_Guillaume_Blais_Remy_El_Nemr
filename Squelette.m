@@ -11,6 +11,7 @@ if fopen([file_name,'.mat'])>0
         
     end
 end
+save(file_name);
 %Mettre les constantes ici/ les stimuli déja fait, s'ils ne sont pas fait
 key1 = 'q'; %Touche pour Congruent %Utiliser seulement la main gauche!
 key2 = 'e'; % Touche pour incongruent
@@ -112,13 +113,6 @@ mot_citrouillePP = ["Plusieurs", "citrouilles"];
 mot_broccoliPP = ["Plusieurs", "broccolis"];
 
 %Remy: Changer images, faire legumes, agrandir ArrStr
-
-I1 = imread('Test.jpg');
-I2 = imread('dune2020_large.jpg');
-I3 = imread('image001.jpg');
-I4 = imread('Test2.jpg');
-I5 = imread('damier.png');
-
 i_pommeS = imread('apple.png');
 i_bananeS = imread('banana.png');
 i_mangueS = imread('mango.png');
@@ -181,23 +175,20 @@ for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
   WaitSecs(0.3);
     end
  Screen('Flip', windowPtr);
-WaitSecs(0.5); %Ici il faut attendre l'imput du participant
+ %Ici il faut attendre l'imput du participant
 %=======
 %Input
 
-start = GetSecs;
-ListenChar(2);
-[secs, keyCode, deltaSecs] = KbWait([], 2);
-temp = KbName(keyCode); %%lettre a save
-ListenChar(0);
-RT = secs - start; %% temps de reaction a save
-mot=join(ArrStr{montrer});
+RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
+
 %Ici on save le stuff
 position=z;
 mot=join(ArrStr{montrer});
-save([file_name '_'  num2str(position)], 'mot', 'RT', 'temp' );
+Reaction=RT{1};
+Touche=RT{2};
+save([file_name '_'  num2str(position)], 'mot','RT', 'Reaction', 'Touche');
 end
-
+ListenChar(1);
 sca;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -225,7 +216,8 @@ end
 
 end
 %%
-function imput=entrer_imput
+%%
+function RT=entrer_imput(resolutions,windowPtr)
 %%entrée du clavier: 
 %ListenChar(2)
 %[secs, keyCode, deltaSecs] = KbWait([], 2)
@@ -235,14 +227,26 @@ start = GetSecs;
 exitKey = 'l';
 ListenChar(2);
 ListenChar(2);
-[secs1, keyCode, deltaSecs] = KbWait([], 2);
+[secs, keyCode, deltaSecs] = KbWait([], 2);
+
 temp = KbName(keyCode); %%lettre a save
-if temp == exitKey
-    sca;
+while ~strcmp(temp, 'q') %TROUVER FACON DE METTRE 2E LETTRE
+[secs, keyCode, deltaSecs] = KbWait([], 2);
+temp = KbName(keyCode); %%lettre a save
+    if  strcmp(temp, exitKey)
+    Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
+    Screen('DrawText', windowPtr, 'TOUCHE POUR SORTIR', resolutions.width*.37, resolutions.height*.60);   
+    Screen('Flip', windowPtr);
+    WaitSecs(2);
+    ListenChar(1);
+    sca;   
+    break
 end
-while temp ~= 'q'
-    [secs2, keyCode, deltaSecs] = KbWait([], 2);
-    secs = secs1+secs2;
-    secs2 = secs1;
+    [secs, keyCode, deltaSecs] = KbWait([], 2);
+   % RT = secs - start;
 temp = KbName(keyCode); %%lettre a save
+end
+RT = secs - start;
+RT = {RT, temp};
+
 end
