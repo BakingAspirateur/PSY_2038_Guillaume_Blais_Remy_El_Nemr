@@ -176,7 +176,7 @@ for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
     for x=1:ending
         Screen('TextSize', windowPtr, 100);
         Screen(windowPtr,'TextFont', 'Garamond');
-  Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*2)*(resolutions.width/250)), resolutions.height*0.465); 
+  Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*2)*(resolutions.width/250))-resolutions.width*.02, resolutions.height*0.465); 
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
   WaitSecs(0.3);
@@ -240,7 +240,7 @@ while ~strcmp(temp, 'q') %TROUVER FACON DE METTRE 2E LETTRE
 temp = KbName(keyCode); %%lettre a save
     if  strcmp(temp, exitKey)
     %Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
-    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.28, resolutions.height*.465);   
+    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
     Screen('Flip', windowPtr);
     WaitSecs(2);
     ListenChar(1);
