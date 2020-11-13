@@ -138,20 +138,21 @@ i_patateP = imread('Many_potato.png');
 i_citrouilleP = imread('Many_pumpkin.png');
 i_tomateP = imread('Many_tomato.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[mot_pommeSU]; [mot_pommeSL]; [mot_bananeSU] ; [mot_bananeSL]; [mot_mangueSU]; [mot_mangueSL]; 
-    [mot_pecheSU]; [mot_pecheSL]; [mot_fraiseSU]; [mot_fraiseSL]; [mot_melonSU]; [mot_melonSL];
-    [mot_pommePD]; [mot_pommePP]; [mot_bananePD]; [mot_bananePP]; [mot_manguePD]; [mot_manguePP];
-    [mot_pechePD]; [mot_pechePP]; [mot_fraisePD]; [mot_fraisePP]; [mot_melonPD]; [mot_melonPP];
-    [mot_broccoliSU]; [mot_broccoliSL]; [mot_carotteSU]; [mot_carotteSL]; [mot_oignonSU]; [mot_oignonSL];
-    [mot_patateSU]; [mot_patateSL]; [mot_citrouilleSU]; [mot_citrouilleSL]; [mot_tomateSU]; [mot_tomateSL]; 
-    [mot_broccoliPD]; [mot_broccoliPP]; [mot_carottePD]; [mot_carottePP]; [mot_oignonPD]; [mot_oignonPP]; 
-    [mot_patatePD]; [mot_patatePP]; [mot_citrouillePD]; [mot_citrouillePP]; [mot_tomatePD]; [mot_tomatePP]};%on les met dans un array
-
-[~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés
+ArrStr = {[mot_pommeSU]; [mot_pommeSL];[mot_pommePD]; [mot_pommePP];[mot_bananeSU]; [mot_bananeSL] ;[mot_bananePD]; [mot_bananePP]; [mot_mangueSU]; [mot_mangueSL]; 
+    [mot_manguePD]; [mot_manguePP];[mot_pecheSU]; [mot_pecheSL];[mot_pechePD]; [mot_pechePP]; [mot_fraiseSU] ;[mot_fraiseSL];[mot_fraisePD]; [mot_fraisePP]; 
+    [mot_melonSU]; [mot_melonSL];[mot_melonPD]; [mot_melonPP];
+   [mot_broccoliSU]; [mot_broccoliSL];[mot_broccoliPD]; [mot_broccoliPP]; [mot_carotteSU]; [mot_carotteSL] ;[mot_carottePD]; [mot_carottePP];
+   [mot_oignonSU]; [mot_oignonSL]; [mot_oignonPD]; [mot_oignonPP]
+    [mot_patateSU]; [mot_patateSL]; [mot_patatePD]; [mot_patatePP]; [mot_citrouilleSU]; [mot_citrouilleSL];[mot_citrouillePD]; [mot_citrouillePP]; 
+    [mot_tomateSU]; [mot_tomateSL];  [mot_tomatePD]; [mot_tomatePP]};%on les met dans un array
+ArrStr = randmise_des_mots(ArrStr,0); %Ici, on randomise 4 éléments à la fois
+[~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés, mais ca reste apparié aux images
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
-images = {i_pommeS;i_pommeS; i_bananeS;i_bananeS; i_mangueS;i_mangueS; i_pecheS;i_pecheS; i_fraiseS;i_fraiseS; i_melonS;i_melonS; i_pommeP;i_pommeP; i_bananeP;i_bananeP; i_mangueP;i_mangueP; i_pecheP;i_pecheP;i_fraiseP;i_fraiseP;i_melonP;i_melonP; i_broccoliS; i_broccoliS; i_carotteS; i_carotteS; i_onionS; i_onionS;i_patateS; i_patateS; i_citrouilleS; i_citrouilleS; i_tomateS; i_tomateS;i_broccoliP; i_broccoliP; i_carotteP; i_carotteP; i_onionP; i_onionP;i_patateP; i_patateP; i_citrouilleP; i_citrouilleP; i_tomateP;i_tomateP };%Les images sont dans les arrays
-%Les images sont en doubles 
+images = {i_pommeS;i_pommeS; i_pommeP;i_pommeP; i_bananeS;i_bananeS;i_bananeP;i_bananeP; i_mangueS;i_mangueS;i_mangueP;i_mangueP; i_pecheS;i_pecheS;i_pecheP;i_pecheP; i_fraiseS;i_fraiseS;i_fraiseP;i_fraiseP; i_melonS;i_melonS;i_melonP;i_melonP;
+      i_broccoliS; i_broccoliS; i_broccoliP; i_broccoliP;
+    i_carotteS; i_carotteS;i_carotteP; i_carotteP; i_onionS; i_onionS; i_onionP; i_onionP;
+    i_patateS; i_patateS;i_patateP; i_patateP; i_citrouilleS; i_citrouilleS; i_citrouilleP; i_citrouilleP; i_tomateS; i_tomateS;i_tomateP;i_tomateP };%Les images sont en doubles 
 images=changer_taille_image(images)%Cette fonction va resize les images
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
 resolutions = Screen('Resolution', screenNumber);
@@ -253,5 +254,21 @@ function images = changer_taille_image(images)
 for taille_array = 1: max(size(images))
     
     images{taille_array}=imresize(images{taille_array}, [400,400]);
+end
+end
+%%
+function ArrStr = randmise_des_mots(ArrStr,ending)
+for x = 1 :max(size(ArrStr)/4)
+    %ending=0;
+    bb=randperm(4,4);
+    Array_temp={ArrStr{ending+1},ArrStr{ending+2},ArrStr{ending+3},ArrStr{ending+4}};
+    for y=1:4
+    ArrStr{y+ending}=Array_temp{(bb(y))};
+    disp(['bb(y)', num2str(bb(y))]);
+    disp(['y=', num2str(y)]);
+    disp(['x=', num2str(x)]);
+    disp(['ending=', num2str(ending)]);
+    end
+    ending=ending+4;
 end
 end
