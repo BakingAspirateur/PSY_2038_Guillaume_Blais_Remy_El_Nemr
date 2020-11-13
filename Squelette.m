@@ -47,6 +47,7 @@ randi([1 30]) %serait randperm(30,30)?
 %Voici la partie du squelette qui fonctionne sur PTB
 %Les elements sont psudo randomisés
 Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
+KbName('UnifyKeyNames'); 
 AssertOpenGL;
 screens=Screen('Screens');
 screenNumber=max(screens); % va toujours chercher l'�cran secondaire
