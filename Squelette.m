@@ -195,13 +195,14 @@ Reaction=RT{1};
 Touche=RT{2};
 %Au lien de faire save, faire un giga array. on savera en excel le gros
 %array apres
-%save([file_name '_'  num2str(position)], 'mot','RT', 'Reaction', 'Touche');
+%Array_final{position}={[file_name '_'  num2str(position)],imshow(images{montrer}), mot, Reaction, Touche};
 %Cette partie permet de sauvegarder
 end
 %showcursor;
 ListenChar(1);
 sca;
-end
+%save([file_name '_'  num2str(position) 'FINAL'], 'Array_final');
+%save(Array_final);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %Voici la fonction pour la croix de fixation
@@ -240,7 +241,8 @@ while ~strcmp(temp, 'q') %TROUVER FACON DE METTRE 2E LETTRE
 temp = KbName(keyCode); %%lettre a save
     if  strcmp(temp, exitKey)
     %Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
-    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.28, resolutions.height*.465);   
+    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.28, resolutions.height*.465);  
+    %save([file_name '_'  num2str(position) 'FINAL'], 'Array_final');
     Screen('Flip', windowPtr);
     WaitSecs(2);
     ListenChar(1);
@@ -278,4 +280,5 @@ function ArrStr = randmise_des_mots(ArrStr,ending)
         end
         ending=ending+4;
     end
+end
 end
