@@ -1,4 +1,5 @@
 function experience = Squelette(subNum)
+%KbName(‘UnifyKeyNames’)
 
 %Squelette de travail
 % Checks if file name already exists
@@ -112,7 +113,7 @@ mot_oignonPP = ["Plusieurs", "oignons"];
 mot_citrouillePP = ["Plusieurs", "citrouilles"];
 mot_broccoliPP = ["Plusieurs", "broccolis"];
 
-%Remy: Changer images, faire legumes, agrandir ArrStr
+%Ici on load les images
 i_pommeS = imread('apple.png');
 i_bananeS = imread('banana.png');
 i_mangueS = imread('mango.png');
@@ -159,6 +160,8 @@ resolutions = Screen('Resolution', screenNumber);
 
 %%
 %Main Loop
+%Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+%hidecursor;
 for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
     fabriquer_fixation(resolutions,windowPtr);
 
@@ -189,9 +192,12 @@ position=z;
 mot=join(ArrStr{montrer});
 Reaction=RT{1};
 Touche=RT{2};
+%Au lien de faire save, faire un giga array. on savera en excel le gros
+%array apres
 %save([file_name '_'  num2str(position)], 'mot','RT', 'Reaction', 'Touche');
 %Cette partie permet de sauvegarder
 end
+%showcursor;
 ListenChar(1);
 sca;
 end
@@ -258,17 +264,17 @@ end
 end
 %%
 function ArrStr = randmise_des_mots(ArrStr,ending)
-for x = 1 :max(size(ArrStr)/4)
-    %ending=0;
-    bb=randperm(4,4);
-    Array_temp={ArrStr{ending+1},ArrStr{ending+2},ArrStr{ending+3},ArrStr{ending+4}};
-    for y=1:4
-    ArrStr{y+ending}=Array_temp{(bb(y))};
-    disp(['bb(y)', num2str(bb(y))]);
-    disp(['y=', num2str(y)]);
-    disp(['x=', num2str(x)]);
-    disp(['ending=', num2str(ending)]);
+    for x = 1 :max(size(ArrStr)/4)
+        %ending=0;
+        bb=randperm(4,4);
+        Array_temp={ArrStr{ending+1},ArrStr{ending+2},ArrStr{ending+3},ArrStr{ending+4}};
+        for y=1:4
+            ArrStr{y+ending}=Array_temp{(bb(y))};
+            %disp(['bb(y)', num2str(bb(y))]);
+            %disp(['y=', num2str(y)]);
+            %disp(['x=', num2str(x)]);
+            %disp(['ending=', num2str(ending)]);
+        end
+        ending=ending+4;
     end
-    ending=ending+4;
-end
 end
