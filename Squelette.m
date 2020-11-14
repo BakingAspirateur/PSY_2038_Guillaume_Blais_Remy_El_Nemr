@@ -57,63 +57,6 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 
-mot_pommeSU = ["Une", "pomme"];
-mot_bananeSU = ["Une", "banane"];
-mot_pecheSU = ["Une", "peche"];
-mot_melonSU = ["Un", "melon"];
-mot_mangueSU = ["Une", "mangue"];
-mot_fraiseSU = ["Une", "fraise"];
-
-mot_pommeSL = ["La", "pomme"];
-mot_bananeSL = ["La", "banane"];
-mot_pecheSL = ["La", "peche"];
-mot_melonSL = ["Le", "melon"];
-mot_mangueSL = ["La", "mangue"];
-mot_fraiseSL = ["La", "fraise"];
-
-
-mot_pommePD = ["Des", "pommes"];
-mot_bananePD = ["Des", "bananes"];
-mot_pechePD = ["Des", "peches"];
-mot_melonPD = ["Des", "melons"];
-mot_manguePD = ["Des", "mangues"];
-mot_fraisePD = ["Des", "fraises"];
-
-mot_pommePP = ["Plusieurs", "pommes"];
-mot_bananePP = ["Plusieurs", "bananes"];
-mot_pechePP = ["Plusieurs", "peches"];
-mot_melonPP = ["Plusieurs", "melons"];
-mot_manguePP = ["Plusieurs", "mangues"];
-mot_fraisePP = ["Plusieurs", "fraises"];
-
-mot_patateSU = ["Une", "patate"];
-mot_carotteSU = ["Une", "carotte"];
-mot_tomateSU = ["Une", "tomate"];
-mot_oignonSU = ["Un", "oignon"];
-mot_citrouilleSU = ["Une", "citrouille"];
-mot_broccoliSU = ["Un", "broccoli"];
-
-mot_patateSL = ["La", "patate"];
-mot_carotteSL = ["La", "carotte"];
-mot_tomateSL = ["La", "tomate"];
-mot_oignonSL = ["L'", "oignon"];
-mot_citrouilleSL = ["La", "citrouille"];
-mot_broccoliSL = ["Le", "broccoli"];
-
-mot_patatePD = ["Des", "patates"];
-mot_carottePD = ["Des", "carottes"];
-mot_tomatePD = ["Des", "tomates"];
-mot_oignonPD = ["Des", "oignons"];
-mot_citrouillePD = ["Des", "citrouilles"];
-mot_broccoliPD = ["Des", "broccolis"];
-
-mot_patatePP = ["Plusieurs", "patates"];
-mot_carottePP = ["Plusieurs", "carottes"];
-mot_tomatePP = ["Plusieurs", "tomates"];
-mot_oignonPP = ["Plusieurs", "oignons"];
-mot_citrouillePP = ["Plusieurs", "citrouilles"];
-mot_broccoliPP = ["Plusieurs", "broccolis"];
-
 %Ici on load les images
 i_pommeS = imread('apple.png');
 i_bananeS = imread('banana.png');
@@ -140,15 +83,12 @@ i_patateP = imread('Many_potato.png');
 i_citrouilleP = imread('Many_pumpkin.png');
 i_tomateP = imread('Many_tomato.png');
 %C'est tres contre intuitif, mais ca fonctionne
-ArrStr = {[mot_pommeSU]; [mot_pommeSL];[mot_pommePD]; [mot_pommePP];[mot_bananeSU]; [mot_bananeSL] ;[mot_bananePD]; [mot_bananePP]; [mot_mangueSU]; [mot_mangueSL]; 
-    [mot_manguePD]; [mot_manguePP];[mot_pecheSU]; [mot_pecheSL];[mot_pechePD]; [mot_pechePP]; [mot_fraiseSU] ;[mot_fraiseSL];[mot_fraisePD]; [mot_fraisePP]; 
-    [mot_melonSU]; [mot_melonSL];[mot_melonPD]; [mot_melonPP];
-   [mot_broccoliSU]; [mot_broccoliSL];[mot_broccoliPD]; [mot_broccoliPP]; [mot_carotteSU]; [mot_carotteSL] ;[mot_carottePD]; [mot_carottePP];
-   [mot_oignonSU]; [mot_oignonSL]; [mot_oignonPD]; [mot_oignonPP]
-    [mot_patateSU]; [mot_patateSL]; [mot_patatePD]; [mot_patatePP]; [mot_citrouilleSU]; [mot_citrouilleSL];[mot_citrouillePD]; [mot_citrouillePP]; 
-    [mot_tomateSU]; [mot_tomateSL];  [mot_tomatePD]; [mot_tomatePP]};%on les met dans un array
+%On utilise ma SUPER fonction pour loader les mots d'un .txt file
+ArrStr = creer_array;
+Array_pour_les_donnees=ArrStr;
+
 ArrStr = randmise_des_mots(ArrStr,0); %Ici, on randomise 4 éléments à la fois
-[~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés, mais ca reste apparié aux images
+%[~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés, mais ca reste apparié aux images
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
 images = {i_pommeS;i_pommeS; i_pommeP;i_pommeP; i_bananeS;i_bananeS;i_bananeP;i_bananeP; i_mangueS;i_mangueS;i_mangueP;i_mangueP; i_pecheS;i_pecheS;i_pecheP;i_pecheP; i_fraiseS;i_fraiseS;i_fraiseP;i_fraiseP; i_melonS;i_melonS;i_melonP;i_melonP;
@@ -163,7 +103,7 @@ resolutions = Screen('Resolution', screenNumber);
 %Main Loop
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 %hidecursor;
-for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
+for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     fabriquer_fixation(resolutions,windowPtr);
 
 %remplacer la croix de fixation par une fonction
@@ -176,7 +116,11 @@ for z=1:size(ArrStr) %Ici le size fonctionne, donc de 1 à 5...
     for x=1:ending
         Screen('TextSize', windowPtr, 100);
         Screen(windowPtr,'TextFont', 'Garamond');
+
   Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*2)*(resolutions.width/250))-resolutions.width*.02, resolutions.height*0.465); 
+
+  Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)),(resolutions.width/2)-((max(size(ArrStr{montrer}(x))*2))*(resolutions.width/250)), resolutions.height*0.465); 
+
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
   WaitSecs(0.3);
@@ -195,13 +139,15 @@ Reaction=RT{1};
 Touche=RT{2};
 %Au lien de faire save, faire un giga array. on savera en excel le gros
 %array apres
-%save([file_name '_'  num2str(position)], 'mot','RT', 'Reaction', 'Touche');
+%image_final=get_image_name(num2str(images{montrer}));
+%Array_final{position}={[file_name '_'  num2str(position)],image_final, mot, Reaction, Touche};
 %Cette partie permet de sauvegarder
 end
 %showcursor;
 ListenChar(1);
 sca;
-end
+%save([file_name '_'  num2str(position) 'FINAL'], 'Array_final');
+%save(Array_final);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %Voici la fonction pour la croix de fixation
@@ -239,8 +185,12 @@ while ~strcmp(temp, 'q') %TROUVER FACON DE METTRE 2E LETTRE
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
     if  strcmp(temp, exitKey)
-    %Screen('FillRect', windowPtr, [100 100 100], [resolutions.width*.37, resolutions.height*.58, resolutions.width*.45, resolutions.height*.65]);
+
     Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
+
+    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.28, resolutions.height*.465);  
+    %save([file_name '_'  num2str(position) 'FINAL'], 'Array_final');
+
     Screen('Flip', windowPtr);
     WaitSecs(2);
     ListenChar(1);
@@ -271,11 +221,21 @@ function ArrStr = randmise_des_mots(ArrStr,ending)
         Array_temp={ArrStr{ending+1},ArrStr{ending+2},ArrStr{ending+3},ArrStr{ending+4}};
         for y=1:4
             ArrStr{y+ending}=Array_temp{(bb(y))};
-            %disp(['bb(y)', num2str(bb(y))]);
-            %disp(['y=', num2str(y)]);
-            %disp(['x=', num2str(x)]);
-            %disp(['ending=', num2str(ending)]);
+            
         end
         ending=ending+4;
     end
 end
+end
+%La fonction qui va sauver beaucoup de place :^)
+function ArrStr = creer_array
+    ending1=0;
+    fidd=fopen('Fruit.txt');
+    notre_array=textscan(fidd,'%s','delimiter','\n');
+    for fine = 1 : (max(size(notre_array{1}))/2)
+        new_array{fine} = [notre_array{1}(ending1+1), notre_array{1}(ending1+2)];
+        ending1=ending1+2;
+        ArrStr = new_array;
+    end   
+end
+    
