@@ -176,6 +176,14 @@ exitKey = 'l';
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
+temp2 = temp;
+
+if strcmp(temp, 'q') | strcmp(temp, 'e')
+    ListenChar(0);
+    RT = secs - start;
+    RT = {RT, temp};
+    return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
+end
 if  strcmp(temp, exitKey)
     Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
     Screen('Flip', windowPtr);
@@ -183,14 +191,19 @@ if  strcmp(temp, exitKey)
     ListenChar(1);
     sca;   
 end
-while  ~strcmp(temp, key1) %TROUVER FACON DE METTRE 2E LETTRE
-[secs, keyCode, deltaSecs] = KbWait([], 2);
-if strcmp(temp, key1)
-    break; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
-end
+ListenChar(2);
+while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
+    ListenChar(2);
+    [secs, keyCode2, deltaSecs] = KbWait([],2);
+    temp2 = KbName(keyCode2);
+    if strcmp(temp2, 'q') | strcmp(temp2, 'e')
+    ListenChar(0);
+    break; 
+    end
 end
 RT = secs - start;
-RT = {RT, temp};
+RT = {RT, temp2};
+ListenChar(0);
 
 end
 %%
