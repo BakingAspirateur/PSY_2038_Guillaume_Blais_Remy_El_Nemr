@@ -117,10 +117,7 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
         Screen('TextSize', windowPtr, 100);
         Screen(windowPtr,'TextFont', 'Garamond');
 
-  Screen('DrawText', windowPtr,num2str(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(num2str(ArrStr{montrer}(x))))*2)*(resolutions.width/250))-resolutions.width*.02, resolutions.height*0.465); 
-
-  Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)),(resolutions.width/2)-((max(size(ArrStr{montrer}(x))*2))*(resolutions.width/250)), resolutions.height*0.465); 
-
+  Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
   %Cette catastrophe tente de centrer les mots
   Screen('Flip', windowPtr);
   WaitSecs(0.3);
@@ -177,29 +174,20 @@ function RT=entrer_imput(resolutions,windowPtr)
 start = GetSecs;
 exitKey = 'l';
 ListenChar(2);
-ListenChar(2);
-[secs, keyCode, deltaSecs] = KbWait([], 2);
-
-temp = KbName(keyCode); %%lettre a save
-while ~strcmp(temp, 'q') %TROUVER FACON DE METTRE 2E LETTRE
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
-    if  strcmp(temp, exitKey)
-
+if  strcmp(temp, exitKey)
     Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
-
-    Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.28, resolutions.height*.465);  
-    %save([file_name '_'  num2str(position) 'FINAL'], 'Array_final');
-
     Screen('Flip', windowPtr);
     WaitSecs(2);
     ListenChar(1);
     sca;   
-    break
 end
-    [secs, keyCode, deltaSecs] = KbWait([], 2);
-   % RT = secs - start;
-temp = KbName(keyCode); %%lettre a save
+while  ~strcmp(temp, key1) %TROUVER FACON DE METTRE 2E LETTRE
+[secs, keyCode, deltaSecs] = KbWait([], 2);
+if strcmp(temp, key1)
+    break; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
+end
 end
 RT = secs - start;
 RT = {RT, temp};
@@ -238,4 +226,3 @@ function ArrStr = creer_array
         ArrStr = new_array;
     end   
 end
-    
