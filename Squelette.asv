@@ -96,17 +96,21 @@ RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
 %Ici on save le stuff
 mot=ArrStr{montrer};
 image_mot=Array_pour_les_images{montrer};
-congruence= strcmp(mot{2},image_mot{2});
-Array_TR(z)=[RT{1}]; %permet de visualiser les TR
-Array_congruence(z)=congruence;
+if mot(2)==image_mot(2)
+    congruence=0;
+else
+    congruence=1;
+end
+Array_TR(z)=[RT{1}];
 Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence]};
 end
 %showcursor;
 ListenChar(1);
 sca;
 Array_table=cell2table(Array_final.');
-save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
-writetable(Array_table, [file_name '.xlsx']);
+            save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR');
+%save(Array_final);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %Voici la fonction pour la croix de fixation
 function croix_fixation = fabriquer_fixation(resolutions,windowPtr)
@@ -137,8 +141,7 @@ ListenChar(2);
             Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
             Screen('Flip', windowPtr);
             Array_table=cell2table(Array_final.');
-            save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
-            writetable(Array_table, [file_name '.xlsx']);
+            save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR');
             WaitSecs(2);
             ListenChar(1);    
             sca;   
