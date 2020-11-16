@@ -12,69 +12,31 @@ if fopen([file_name,'.mat'])>0
         
     end
 end
-save(file_name);
-%Les elements sont psudo randomisés
 Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
 KbName('UnifyKeyNames'); 
 AssertOpenGL;
 screens=Screen('Screens');
 screenNumber=max(screens); % va toujours chercher l'�cran secondaire
-%Beaucoup de choses ici ne sont pas importantes...
 [width_in_mm, height_in_mm]=Screen('DisplaySize', screenNumber);
 resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
-
-%Ici on load les images
-i_pommeS = imread('apple.png');
-i_bananeS = imread('banana.png');
-i_mangueS = imread('mango.png');
-i_pecheS = imread('peach.png');
-i_fraiseS = imread('strawberry.png');
-i_melonS = imread('watermelon.png');
-i_pommeP = imread('Many_apple.png');
-i_bananeP = imread('Many_banana.png');
-i_mangueP = imread('Many_mango.png');
-i_pecheP = imread('Many_peach.png');
-i_fraiseP = imread('Many_strawberry.png');
-i_melonP = imread('Many_watermelon.png');
-i_broccoliS = imread('broccoli.png');
-i_carotteS = imread('carrot.png');
-i_onionS = imread('onion.png');
-i_patateS = imread('potato.png');
-i_citrouilleS = imread('pumpkin.png');
-i_tomateS = imread('tomato.png');
-i_broccoliP = imread('Many_broccoli.png');
-i_carotteP = imread('Many_carrot.png');
-i_onionP = imread('Many_onion.png');
-i_patateP = imread('Many_potato.png');
-i_citrouilleP = imread('Many_pumpkin.png');
-i_tomateP = imread('Many_tomato.png');
-%C'est tres contre intuitif, mais ca fonctionne
 %On utilise ma SUPER fonction pour loader les mots d'un .txt file
 ArrStr = creer_array;
-Array_pour_les_images=ArrStr;
-
+Array_pour_les_images=ArrStr;%On dédouble l'array pour les résultats
 ArrStr = randmise_des_mots(ArrStr,0); %Ici, on randomise 4 éléments à la fois
 %[~,idx] = sort(rand(size(ArrStr))) %Permet de faire une série de valeurs randomisés, mais ca reste apparié aux images
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));
 rng='shuffle';
-images = {i_pommeS;i_pommeS; i_pommeP;i_pommeP; i_bananeS;i_bananeS;i_bananeP;i_bananeP; i_mangueS;i_mangueS;i_mangueP;i_mangueP; i_pecheS;i_pecheS;i_pecheP;i_pecheP; i_fraiseS;i_fraiseS;i_fraiseP;i_fraiseP; i_melonS;i_melonS;i_melonP;i_melonP;
-      i_broccoliS; i_broccoliS; i_broccoliP; i_broccoliP;
-    i_carotteS; i_carotteS;i_carotteP; i_carotteP; i_onionS; i_onionS; i_onionP; i_onionP;
-    i_patateS; i_patateS;i_patateP; i_patateP; i_citrouilleS; i_citrouilleS; i_citrouilleP; i_citrouilleP; i_tomateS; i_tomateS;i_tomateP;i_tomateP };%Les images sont en doubles 
-images=changer_taille_image(images)%Cette fonction va resize les images
+images = load_les_images; %Load les images
+images=changer_taille_image(images);%Cette fonction va resize les images
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
-%resolutions = Screen('Resolution', screenNumber);
-
 %%
 %Main Loop
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 %hidecursor;
 for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
-    fabriquer_fixation(resolutions,windowPtr);
-
-%remplacer la croix de fixation par une fonction
+    fabriquer_fixation(resolutions,windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
     ending=max(size(ArrStr{montrer})); % Size ne fonctionne pas apres, so on trouve une fin à la phrase
       texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois... c'est de la folie
@@ -91,22 +53,23 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
   WaitSecs(0.3);
     end
  Screen('Flip', windowPtr);
-%Input
 RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
 %Ici on save le stuff
-mot=ArrStr{montrer};
+mot=ArrStr{montrer}; %Ca ne fit pas dans un array, so on fait un variable
 image_mot=Array_pour_les_images{montrer};
 congruence= strcmp(mot{2},image_mot{2});
 Array_TR(z)=[RT{1}]; %permet de visualiser les TR
-Array_congruence(z)=congruence;
+Array_congruence(z)=congruence; %donne un boolean pour la congruence
 Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence]};
 end
-%showcursor;
-ListenChar(1);
-sca;
+%on sauvegarde le gros array en .xlsx
 Array_table=cell2table(Array_final.');
 save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
 writetable(Array_table, [file_name '.xlsx']);
+%showcursor;
+ListenChar(1);
+sca;
+
 %%
 %Voici la fonction pour la croix de fixation
 function croix_fixation = fabriquer_fixation(resolutions,windowPtr)
@@ -116,6 +79,8 @@ Screen('Flip', windowPtr);
 WaitSecs(0.5);
 end
 %%
+%La fonction qui permet de rentrer les imputs et de sortir de la
+%stimulation, en sauvegardant les données en .xlsx
 function RT=entrer_imput(resolutions,windowPtr)
 start = GetSecs;
 exitKey = 'l';
@@ -158,6 +123,7 @@ ListenChar(0);
 
 end
 %%
+%La fonction qui permet de resize les images en 400x400
 function images = changer_taille_image(images)
 
 for taille_array = 1: max(size(images))
@@ -166,6 +132,7 @@ for taille_array = 1: max(size(images))
 end
 end
 %%
+%La fonction qui randomise les mots en quatriades
 function ArrStr = randmise_des_mots(ArrStr,ending)
     for x = 1 :max(size(ArrStr)/4)
         %ending=0;
@@ -178,9 +145,8 @@ function ArrStr = randmise_des_mots(ArrStr,ending)
         ending=ending+4;
     end
 end
-end
 %%
-%La fonction qui va sauver beaucoup de place :^)
+%La fonction qui load les mots d'un document .txt
 function ArrStr = creer_array
     ending1=0;
     fidd=fopen('Fruit.txt');
@@ -189,4 +155,26 @@ function ArrStr = creer_array
         ArrStr{fine} = [notre_array{1}(ending1+1), notre_array{1}(ending1+2)];
         ending1=ending1+2;
     end   
+end
+%%
+%la fonction qui load les images ET qui les double
+function images = load_les_images
+    myFolder = 'C:\Users\Distille\Desktop\UDEM\Automne 2020\PSY2038\Travail_Final\PSY_2038_Guillaume_Blais_Remy_El_Nemr\Images_load';
+    filePattern = fullfile(myFolder, '*.png');
+    pngFiles = dir(filePattern);
+    jj=0;%Ceci permet de ne pas briser l'élément 1
+    for k = 1:length(pngFiles)
+        baseFileName = pngFiles(k).name;
+        fullFileName = fullfile(myFolder, baseFileName);
+        %fprintf(1, 'Now reading %s\n', fullFileName); 
+        imageArray{k} = imread(fullFileName);     
+    end
+    images=imageArray;
+    for ii = 1 : max(size(imageArray))
+        for kk = 0:1
+        images{ii+kk+jj} = imageArray{ii};    
+        end
+    jj=ii; %Permet de garder l'élément 1
+    end
+end
 end
