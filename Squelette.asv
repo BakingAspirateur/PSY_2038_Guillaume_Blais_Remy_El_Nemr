@@ -1,17 +1,18 @@
 function experience = Squelette(subNum)
 %KbName(‘UnifyKeyNames’)
 
-%Squelette de travail
 % Checks if file name already exists
 file_name = sprintf('Squelette_sujet%d', subNum);
 if fopen([file_name,'.mat'])>0
-	warning('This filename already exists.')
+	warning('Ce numéro de participant existe déja.')
     reenter = input('Overwrite (y/n)? ', 's');
     if strcmp(reenter, 'n')
-    	subNum = str2double(input('Enter new subject number: ', 's'));
+    	subNum = str2double(input('Entrez un autre numéro: ', 's'));
         
     end
 end
+%%
+%Les paramètres de l'écran
 Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
 KbName('UnifyKeyNames'); 
 AssertOpenGL;
@@ -21,6 +22,7 @@ screenNumber=max(screens); % va toujours chercher l'�cran secondaire
 resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
+%%
 %On utilise ma SUPER fonction pour loader les mots d'un .txt file
 ArrStr = creer_array;
 Array_pour_les_images=ArrStr;%On dédouble l'array pour les résultats
@@ -38,29 +40,27 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     fabriquer_fixation(resolutions,windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
-    ending=max(size(ArrStr{montrer})); % Size ne fonctionne pas apres, so on trouve une fin à la phrase
-      texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois... c'est de la folie
-   Screen('DrawTexture', windowPtr,texturePtr(1) );
+    texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois... c'est de la folie
+    Screen('DrawTexture', windowPtr,texturePtr(1) );
     Screen('Flip', windowPtr)
     WaitSecs(1);
-    for x=1:ending
+    for x=1:2
         Screen('TextSize', windowPtr, 100);
         Screen(windowPtr,'TextFont', 'Garamond');
-
-  Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
-  %Cette catastrophe tente de centrer les mots
-  Screen('Flip', windowPtr);
-  WaitSecs(0.3);
+        Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
+        %Cette catastrophe tente de centrer les mots
+        Screen('Flip', windowPtr);
+        WaitSecs(0.3);
     end
- Screen('Flip', windowPtr);
-RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
-%Ici on save le stuff
-mot=ArrStr{montrer}; %Ca ne fit pas dans un array, so on fait un variable
-image_mot=Array_pour_les_images{montrer};
-congruence= strcmp(mot{2},image_mot{2});
-Array_TR(z)=[RT{1}]; %permet de visualiser les TR
-Array_congruence(z)=congruence; %donne un boolean pour la congruence
-Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence]};
+    Screen('Flip', windowPtr);
+    RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
+    %Ici on save le stuff
+    mot=ArrStr{montrer}; %Ca ne fit pas dans un array, so on fait un variable
+    image_mot=Array_pour_les_images{montrer};
+    congruence= strcmp(mot{2},image_mot{2});
+    Array_TR(z)=[RT{1}]; %permet de visualiser les TR
+    Array_congruence(z)=congruence; %donne un boolean pour la congruence
+    Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence]};
 end
 %on sauvegarde le gros array en .xlsx
 Array_table=cell2table(Array_final.');
@@ -125,9 +125,7 @@ end
 %%
 %La fonction qui permet de resize les images en 400x400
 function images = changer_taille_image(images)
-
-for taille_array = 1: max(size(images))
-    
+for taille_array = 1: max(size(images))   
     images{taille_array}=imresize(images{taille_array}, [400,400]);
 end
 end
@@ -162,7 +160,7 @@ function images = load_les_images
     myFolder = 'C:\Users\Distille\Desktop\UDEM\Automne 2020\PSY2038\Travail_Final\PSY_2038_Guillaume_Blais_Remy_El_Nemr\Images_load';
     filePattern = fullfile(myFolder, '*.png');
     pngFiles = dir(filePattern);
-    jj=0;
+    jj=0;%Ceci permet de ne pas briser l'élément 1
     for k = 1:length(pngFiles)
         baseFileName = pngFiles(k).name;
         fullFileName = fullfile(myFolder, baseFileName);
@@ -174,7 +172,7 @@ function images = load_les_images
         for kk = 0:1
         images{ii+kk+jj} = imageArray{ii};    
         end
-    jj=ii;
+    jj=ii; %Permet de garder l'élément 1
     end
 end
 end
