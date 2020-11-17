@@ -72,7 +72,7 @@ sca;
 
 %%
 %Voici la fonction pour la croix de fixation
-function croix_fixation = fabriquer_fixation(resolutions,windowPtr)
+function fabriquer_fixation(resolutions,windowPtr)
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
 Screen('Flip', windowPtr);
@@ -156,8 +156,10 @@ function ArrStr = creer_array
 end
 %%
 %la fonction qui load les images ET qui les double
-function images = load_les_images
-    myFolder = 'C:\Users\Distille\Desktop\UDEM\Automne 2020\PSY2038\Travail_Final\PSY_2038_Guillaume_Blais_Remy_El_Nemr\Images_load';
+function images = load_les_images   
+    myFolder = ('Images_load');
+    myFolder=what(myFolder);
+    myFolder=myFolder.path;
     filePattern = fullfile(myFolder, '*.png');
     pngFiles = dir(filePattern);
     jj=0;%Ceci permet de ne pas briser l'élément 1
