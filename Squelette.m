@@ -23,6 +23,8 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 %%
+%Ca c'est le nom des axes pour le tableau excel.
+colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence'};
 %On utilise ma SUPER fonction pour loader les mots d'un .txt file
 ArrStr = creer_array;
 Array_pour_les_images=ArrStr;%On dédouble l'array pour les résultats
@@ -63,7 +65,13 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence]};
 end
 %on sauvegarde le gros array en .xlsx
+
+%OK hear me out. On transforme en table pour sortir les valeurs en
+%horizontal, on change en array pour concrétiser les 8 valeurs et on
+%rechange en table AVEC le nom des axes.
 Array_table=cell2table(Array_final.');
+Array_table=table2array(Array_table);
+Array_table=cell2table(Array_table, 'VariableNames',colname);
 save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
 writetable(Array_table, [file_name '.xlsx']);
 %showcursor;
@@ -101,7 +109,11 @@ ListenChar(2);
         if  strcmp(temp, exitKey)
             Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
             Screen('Flip', windowPtr);
+            %On a ici ma cochonerie qui permet de mettre ca en tableau
+            %excel en ayant des noms d'axes
             Array_table=cell2table(Array_final.');
+            Array_table=table2array(Array_table);
+            Array_table=cell2table(Array_table, 'VariableNames',colname);
             save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
             writetable(Array_table, [file_name '.xlsx']);
             WaitSecs(2);

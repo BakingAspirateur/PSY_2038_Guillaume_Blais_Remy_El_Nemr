@@ -23,6 +23,7 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 %%
+colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence'};
 %On utilise ma SUPER fonction pour loader les mots d'un .txt file
 ArrStr = creer_array;
 Array_pour_les_images=ArrStr;%On dédouble l'array pour les résultats
@@ -63,7 +64,8 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence]};
 end
 %on sauvegarde le gros array en .xlsx
-Array_table=cell2table(Array_final.');
+Array_final=Array_final.';
+Array_table=cell2table(Array_final, 'VariableNames',colname);
 save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
 writetable(Array_table, [file_name '.xlsx']);
 %showcursor;
@@ -72,7 +74,7 @@ sca;
 
 %%
 %Voici la fonction pour la croix de fixation
-function croix_fixation = fabriquer_fixation(resolutions,windowPtr)
+function fabriquer_fixation(resolutions,windowPtr)
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
 Screen('Flip', windowPtr);
@@ -101,6 +103,7 @@ ListenChar(2);
         if  strcmp(temp, exitKey)
             Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
             Screen('Flip', windowPtr);
+            
             Array_table=cell2table(Array_final.');
             save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
             writetable(Array_table, [file_name '.xlsx']);
@@ -156,8 +159,10 @@ function ArrStr = creer_array
 end
 %%
 %la fonction qui load les images ET qui les double
-function images = load_les_images
-    myFolder = 'C:\Users\Distille\Desktop\UDEM\Automne 2020\PSY2038\Travail_Final\PSY_2038_Guillaume_Blais_Remy_El_Nemr\Images_load';
+function images = load_les_images   
+    myFolder = ('Images_load');
+    myFolder=what(myFolder);
+    myFolder=myFolder.path;
     filePattern = fullfile(myFolder, '*.png');
     pngFiles = dir(filePattern);
     jj=0;%Ceci permet de ne pas briser l'élément 1
