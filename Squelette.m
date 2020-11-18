@@ -25,6 +25,11 @@ hz=Screen('FrameRate', screenNumber);
 %%
 %Ca c'est le nom des axes pour le tableau excel.
 colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence'};
+myFolder2 = ('PSY_2038_Guillaume_Blais_Remy_El_Nemr');
+myFolder2=what(myFolder2);
+    myFolder2=myFolder2.path;
+myFolder3=[myFolder2 '\' file_name];
+mkdir(myFolder3);
 %On utilise ma SUPER fonction pour loader les mots d'un .txt file
 ArrStr = creer_array;
 Array_pour_les_images=ArrStr;%On dédouble l'array pour les résultats
@@ -72,8 +77,8 @@ end
 Array_table=cell2table(Array_final.');
 Array_table=table2array(Array_table);
 Array_table=cell2table(Array_table, 'VariableNames',colname);
-save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
-writetable(Array_table, [file_name '.xlsx']);
+save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence');
+writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
 %showcursor;
 ListenChar(1);
 sca;
@@ -114,8 +119,8 @@ ListenChar(2);
             Array_table=cell2table(Array_final.');
             Array_table=table2array(Array_table);
             Array_table=cell2table(Array_table, 'VariableNames',colname);
-            save([file_name '_' 'FINAL'], 'Array_table', 'Array_TR', 'Array_congruence');
-            writetable(Array_table, [file_name '.xlsx']);
+            save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence');
+            writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
             WaitSecs(2);
             ListenChar(1);    
             sca;   
