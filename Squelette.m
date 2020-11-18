@@ -44,6 +44,29 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %Main Loop
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 %hidecursor;
+%%plug de l'ecran d'intro
+
+
+consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
+consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
+consigne3='Appuyez sur H pour continuer.';
+
+Screen('DrawText', windowPtr, consigne1, (resolutions.width/4)+(resolutions.width*0.031), resolutions.height/4);
+Screen('DrawText', windowPtr, consigne2, (resolutions.width/4)+(resolutions.width*0.031), resolutions.height/4+(resolutions.height*0.15));
+Screen('DrawText', windowPtr, consigne3, (resolutions.width/4)+(resolutions.width*0.2), resolutions.height/4+(resolutions.height*0.30));
+%%Faudra juste aligner les textes, il est 2h20am sorry
+Screen('Flip', windowPtr);
+ListenChar(1);
+[secs, keyCodeI, deltaSecs] = KbWait([],2);
+tempI = KbName(keyCodeI);
+while ~strcmp(tempI, 'h')
+     [secs, keyCodeI2, deltaSecs] = KbWait([],2);
+     tempI2 = KbName(keyCodeI2);
+     tempI = tempI2;
+end
+ListenChar(0);
+
+
 for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     fabriquer_fixation(resolutions,windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
