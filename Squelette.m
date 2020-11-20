@@ -1,4 +1,4 @@
-function experience = Squelette_backup(subNum)
+function experience = Squelette(subNum)
 %KbName(‘UnifyKeyNames’)
 
 % Checks if file name already exists
