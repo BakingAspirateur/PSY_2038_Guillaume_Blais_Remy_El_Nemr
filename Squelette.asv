@@ -133,7 +133,7 @@ save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence');
 writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
 figure();
 plot(Array_TR);
-
+plot(Array_congruence);
 %showcursor;
 ListenChar(1);
 sca;
@@ -177,7 +177,6 @@ ListenChar(2);
             save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence');
             writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
             plot(Array_TR);
-            
             WaitSecs(2);
             ListenChar(1);    
             sca;   
