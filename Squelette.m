@@ -2,14 +2,17 @@ function experience = Squelette(subNum)
 %KbName(‘UnifyKeyNames’)
 
 % Checks if file name already exists
-file_name = sprintf('Squelette_sujet%d', subNum);
-if fopen([file_name,'.mat'])>0
-	warning('Ce numéro de participant existe déja.')
+%file_name = sprintf('Squelette_sujet%d', subNum);
+file_name=['Squelette_sujet_',char(subNum)];
+if exist(file_name,'dir')
+	warning('Ce numéro de participant existe déja. Entrez en un autre')
     reenter = input('Overwrite (y/n)? ', 's');
     if strcmp(reenter, 'n')
-    	subNum = str2double(input('Entrez un autre numéro: ', 's'));
+    	%subNum = str2double(input('Entrez un autre numéro: ', 's'));
+        subNum = char(input('Entrez un autre numéro: ', 's'));
         
     end
+    
 end
 %%
 %Les paramètres de l'écran
@@ -45,6 +48,7 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %Main Loop
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 %hidecursor;
+Screen(windowPtr,'TextFont', 'Arial');
 rtArr = []; % array qui contiendra les TR - pour plot avec un array "trial number"
 consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
@@ -78,7 +82,6 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     WaitSecs(1);
     for x=1:2
         Screen('TextSize', windowPtr, 100);
-        Screen(windowPtr,'TextFont', 'Arial');
         Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
         %Cette catastrophe tente de centrer les mots
         Screen('Flip', windowPtr);
@@ -141,7 +144,7 @@ ListenChar(2);
             Screen('Flip', windowPtr);
             %On a ici ma cochonerie qui permet de mettre ca en tableau
             %excel en ayant des noms d'axes
-            Array_table=cell2table(Array_final.');
+            Array_table=cell2table((Array_final.'));
             Array_table=table2array(Array_table);
             Array_table=cell2table(Array_table, 'VariableNames',colname);
             save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence');
