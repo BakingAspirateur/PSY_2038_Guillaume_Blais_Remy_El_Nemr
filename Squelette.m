@@ -78,7 +78,7 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     WaitSecs(1);
     for x=1:2
         Screen('TextSize', windowPtr, 100);
-        Screen(windowPtr,'TextFont', 'Garamond');
+        Screen(windowPtr,'TextFont', 'Arial');
         Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
         %Cette catastrophe tente de centrer les mots
         Screen('Flip', windowPtr);
