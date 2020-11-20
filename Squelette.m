@@ -9,7 +9,9 @@ if exist(file_name,'dir')
     reenter = input('Overwrite (y/n)? ', 's');
     if strcmp(reenter, 'n')
     	%subNum = str2double(input('Entrez un autre numéro: ', 's'));
-        subNum = char(input('Entrez un autre numéro: ', 's'));
+        subNum=input('Entrez un autre nom');
+        file_name=['Squelette_sujet_',char(subNum)];
+        
         
     end
     
@@ -26,8 +28,21 @@ resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
 hz=Screen('FrameRate', screenNumber);
 %%
+% Set maximum priority level
+%priorityLevel = MaxPriority(Cfg.win);  % prioritize over other computer processes
+%Priority(priorityLevel)
+%%
+%Les propriétés du son
+Fe = 44100;     
+duree = 0.4;      
+freq = 2000;    
+etendue = (0:duree*Fe-1) / (Fe-1);
+min(etendue)
+max(etendue)
+un_son = sin(2 * pi * freq * etendue);
+%%
 %Ca c'est le nom des axes pour le tableau excel.
-colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence'};
+colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence', 'Erreur'};
 myFolder2 = ('PSY_2038_Guillaume_Blais_Remy_El_Nemr');
 myFolder2=what(myFolder2);
     myFolder2=myFolder2.path;
@@ -72,8 +87,9 @@ while ~strcmp(tempI, 'space')
      tempI = tempI2;
 end
 ListenChar(0);
-
+%%
 for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
+    %Ici, à la place de mettre max size, on peut prédéfinir le nombre final
     fabriquer_fixation(resolutions,windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
     texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois... c'est de la folie
@@ -94,8 +110,20 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
     image_mot=Array_pour_les_images{montrer};
     congruence= strcmp(mot{2},image_mot{2});
     Array_TR(z)=[RT{1}]; %permet de visualiser les TR
+    erreur=0;
+    %On essaie de faire du feedback
+    if (congruence == true && strcmp(RT{2},'e'))
+        sound(un_son, Fe);
+        erreur='ERREUR';
+        WaitSecs(0.4);
+    end
+     if (congruence == false && strcmp(RT{2},'q'))
+            sound(un_son, Fe);
+            erreur='ERREUR';
+            WaitSecs(0.4);
+    end
     Array_congruence(z)=congruence; %donne un boolean pour la congruence
-    Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence]};
+    Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence, erreur]};
 end
 %on sauvegarde le gros array en .xlsx
 
