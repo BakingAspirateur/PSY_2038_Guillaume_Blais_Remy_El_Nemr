@@ -46,7 +46,7 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %hidecursor;
 %%plug de l'ecran d'intro
 
-
+rtArr = []; % array qui contiendra les TR - pour plot avec un array "trial number"
 consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
 consigne3='Appuyez sur la touche Espace pour continuer.';
@@ -133,6 +133,7 @@ temp2 = temp;
 if strcmp(temp, 'q') | strcmp(temp, 'e')
     ListenChar(0);
     RT = secs - start;
+    rtArr(end+1) = RT;
     RT = {RT, temp};
     return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
 end
@@ -163,6 +164,7 @@ ListenChar(2);
         end
     end
 RT = secs - start;
+rtArr(end+1) = RT;
 RT = {RT, temp2};
 ListenChar(0);
 
