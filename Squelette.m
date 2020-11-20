@@ -13,7 +13,7 @@ if fopen([file_name,'.mat'])>0
 end
 %%
 %Les paramètres de l'écran
-Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
+Screen('Preference', 'VisualDebuglevel', 3);
 KbName('UnifyKeyNames'); 
 AssertOpenGL;
 screens=Screen('Screens');
@@ -49,22 +49,27 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 
 consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
-consigne3='Appuyez sur H pour continuer.';
+consigne3='Appuyez sur la touche Espace pour continuer.';
 
-Screen('DrawText', windowPtr, consigne1, (resolutions.width/4)+(resolutions.width*0.031), resolutions.height/4);
-Screen('DrawText', windowPtr, consigne2, (resolutions.width/4)+(resolutions.width*0.031), resolutions.height/4+(resolutions.height*0.15));
-Screen('DrawText', windowPtr, consigne3, (resolutions.width/4)+(resolutions.width*0.2), resolutions.height/4+(resolutions.height*0.30));
+consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
+consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
+consigne3='Appuyez sur la touche Espace pour débuter.';
+
+Screen('DrawText', windowPtr, consigne1, (resolutions.width/4)+(resolutions.width*0.072 ), resolutions.height/4);
+Screen('DrawText', windowPtr, consigne2, (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4+(resolutions.height*0.15));
+Screen('DrawText', windowPtr, consigne3, (resolutions.width/4)+(resolutions.width*0.128), resolutions.height/4+(resolutions.height*0.30));
 %%Faudra juste aligner les textes, il est 2h20am sorry
 Screen('Flip', windowPtr);
 ListenChar(1);
 [secs, keyCodeI, deltaSecs] = KbWait([],2);
-tempI = KbName(keyCodeI);
-while ~strcmp(tempI, 'h')
+tempI = KbName(keyCodeI); 
+while ~strcmp(tempI, 'space')
      [secs, keyCodeI2, deltaSecs] = KbWait([],2);
      tempI2 = KbName(keyCodeI2);
      tempI = tempI2;
 end
 ListenChar(0);
+
 
 
 for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
@@ -139,7 +144,7 @@ ListenChar(2);
             Screen('Flip', windowPtr);
             %On a ici ma cochonerie qui permet de mettre ca en tableau
             %excel en ayant des noms d'axes
-            Array_table=cell2table(Array_final.');
+            Array_table=cell2table(Array_final);
             Array_table=table2array(Array_table);
             Array_table=cell2table(Array_table, 'VariableNames',colname);
             save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence');
