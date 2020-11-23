@@ -1,4 +1,4 @@
-function experience = Squelette(subNum)
+function experience = Squelette(subNum, trial)
 % Checks if file name already exists
 %file_name = sprintf('Squelette_sujet%d', subNum);
 file_name=['Squelette_sujet_',char(subNum)];
@@ -65,9 +65,7 @@ consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
 consigne3='Appuyez sur la touche Espace pour continuer.';
 
-consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
-consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
-consigne3='Appuyez sur la touche Espace pour débuter.';
+counter = 0;
 
 Screen('DrawText', windowPtr, consigne1, (resolutions.width/4)+(resolutions.width*0.072 ), resolutions.height/4);
 Screen('DrawText', windowPtr, consigne2, (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4+(resolutions.height*0.15));
@@ -85,6 +83,7 @@ end
 ListenChar(0);
 %%
 for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
+    counter = counter + 1;
     %Ici, à la place de mettre max size, on peut prédéfinir le nombre final
     fabriquer_fixation(resolutions,windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
@@ -117,7 +116,12 @@ for z=1:max(size(ArrStr)) %Ici le size fonctionne, donc de 1 à 5...
             sound(un_son, Fe);
             erreur='ERREUR';
             WaitSecs(0.4);
-    end
+     end
+    
+     if trial == 0 && counter == 4
+         sca;
+         return;
+     end
     Array_congruence(z)=congruence; %donne un boolean pour la congruence
     Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence, erreur]};
 end
