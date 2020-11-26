@@ -2,7 +2,7 @@ Une
 pomme
 La
 pomme
-Plusieurs
+Les
 pommes
 Des
 pommes
@@ -10,7 +10,7 @@ Une
 banane
 La
 banane
-Plusieurs
+Les
 bananes
 Des
 bananes
@@ -18,7 +18,7 @@ Une
 mangue
 La
 mangue
-Plusieurs
+Les
 mangues
 Des
 mangues
@@ -26,7 +26,7 @@ Une
 pêche
 La
 pêche
-Plusieurs
+Les
 pêches
 Des
 pêches
@@ -34,7 +34,7 @@ Une
 fraise
 La
 fraise
-Plusieurs
+Les
 fraises
 Des
 fraises
@@ -42,7 +42,7 @@ Un
 melon
 Le
 melon
-Plusieurs
+Les
 melons
 Des
 melons
@@ -50,7 +50,7 @@ Un
 broccoli
 Le
 broccoli
-Plusieurs
+Les
 broccolis
 Des
 broccolis
@@ -58,7 +58,7 @@ Une
 carotte
 La
 carotte
-Plusieurs
+Les
 carottes
 Des
 carottes
@@ -66,7 +66,7 @@ Un
 oignon
 Le
 oignon
-Plusieurs
+Les
 oignons
 Des
 oignons
@@ -74,7 +74,7 @@ Une
 patate
 La
 patate
-Plusieurs
+Les
 patates
 Des
 patates
@@ -82,7 +82,7 @@ Une
 citrouille
 La
 citrouille
-Plusieurs
+Les
 citrouilles
 Des
 citrouilles
@@ -90,7 +90,7 @@ Une
 tomate
 La
 tomate
-Plusieurs
+Les
 tomates
 Des
 tomates
