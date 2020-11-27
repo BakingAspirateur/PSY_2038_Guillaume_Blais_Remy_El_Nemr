@@ -134,6 +134,7 @@ save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence');
 writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
 figure();
 plot(Array_TR);
+
 ShowCursor;
 ListenChar(1);
 sca;
@@ -156,6 +157,7 @@ ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 temp2 = temp;
+
 if strcmp(temp, 'q') | strcmp(temp, 'e')
     ListenChar(0);
     RT = secs - start;
@@ -238,6 +240,7 @@ function images = load_les_images
     for k = 1:length(pngFiles)
         baseFileName = pngFiles(k).name;
         fullFileName = fullfile(myFolder, baseFileName);
+        %fprintf(1, 'Now reading %s\n', fullFileName); 
         imageArray{k} = imread(fullFileName);     
     end
     images=imageArray;
