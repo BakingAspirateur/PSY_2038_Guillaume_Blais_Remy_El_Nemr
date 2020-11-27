@@ -44,7 +44,7 @@ Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
 KbName('UnifyKeyNames'); 
 AssertOpenGL;
 screens=Screen('Screens');
-screenNumber=max(screens); % va toujours chercher l'�cran secondaire
+screenNumber=max(screens); % va toujours chercher l'écran secondaire
 [width_in_mm, height_in_mm]=Screen('DisplaySize', screenNumber);
 resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
@@ -71,6 +71,7 @@ myFolder2=what(myFolder2);
 myFolder3=[myFolder2 '\' file_name];
 mkdir(myFolder3); %Création du dossier
 rng='shuffle';
+counter = 0;
 %On utilise la fonction pour loader les mots d'un .txt file
 ArrStr = creer_array;
 Array_pour_les_images=ArrStr;%On dédouble l'array pour les résultats
@@ -85,12 +86,11 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 HideCursor;
 Screen(windowPtr,'TextFont', 'Arial');
-
 consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
-consigne3='Appuyez sur la touche Espace pour continuer.';
+consigne3='Appuyez sur la touche Espace pour commencer.';
 
-counter = 0;
+
 
 Screen('DrawText', windowPtr, consigne1, (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4);
 Screen('DrawText', windowPtr, consigne2, (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4+(resolutions.height*0.15));
@@ -240,8 +240,7 @@ function ArrStr = randmise_des_mots(ArrStr,ending)
         bb=randperm(4,4);
         Array_temp={ArrStr{ending+1},ArrStr{ending+2},ArrStr{ending+3},ArrStr{ending+4}};
         for y=1:4
-            ArrStr{y+ending}=Array_temp{(bb(y))};
-            
+            ArrStr{y+ending}=Array_temp{(bb(y))};          
         end
         ending=ending+4;
     end
@@ -250,7 +249,7 @@ end
 %La fonction qui load les mots d'un document .txt
 function ArrStr = creer_array
     ending1=0;
-    fidd=fopen('Fruit.txt');
+    fidd=fopen('Fruit.txt'); %Le fichier est prédéfini
     notre_array=textscan(fidd,'%s','delimiter','\n');
     for fine = 1 : (max(size(notre_array{1}))/2)
         ArrStr{fine} = [notre_array{1}(ending1+1), notre_array{1}(ending1+2)];
