@@ -39,6 +39,7 @@ if exist(file_name,'dir')
 end
 %%
 %Les paramètres de l'écran
+Screen('Preference','VisualDebugLevel', 0);
 Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
 KbName('UnifyKeyNames'); 
 AssertOpenGL;

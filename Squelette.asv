@@ -6,8 +6,8 @@ function experience = Squelette(subName, trial)
 %d'un dossier suivie d'une suite de mot, adjectif-nom, qui seront
 %congruents ou non avec la quantité de l'image. 
 
-%Référence: L'étude coolArcara, Giorgio; Franzon, Francesca; Gastaldon, Simone; Brotto, Silvia; Semenza, Carlo; Peressotti, Francesca; Zanini, Chiara (2019). One can be some but some cannot be one: ERP correlates of numerosity incongruence are different for singular and plural. Cortex, 116:104-121.
-%Fred Gosselin
+%Référence:Arcara, Giorgio; Franzon, Francesca; Gastaldon, Simone; Brotto, Silvia; Semenza, Carlo; Peressotti, Francesca; Zanini, Chiara (2019). One can be some but some cannot be one: ERP correlates of numerosity incongruence are different for singular and plural. Cortex, 116:104-121.
+%Frederic Gosselin
 
 % L'expérience principale se trouve dans le fichier: 'PSY_2038_Guillaume_Blais_Remy_El_Nemr', 
 % Les fonctions annexes sont à la fin du scripte
@@ -15,17 +15,16 @@ function experience = Squelette(subName, trial)
 % Le scripte crée un dossier 'Squelette_Sujet_[Nom_du_participant]
 % Le ficher MAT et un fichier excel sont sauvegardés dans ce dossier 
 % Un array est transformé en tableau et sauvegardé;
-%le tableau comporte les variables: Participant, les 4 mots, les TR, la
+%le tableau comporte les variables suivantes: Participant, les 4 mots, les TR, la
 %touche appuyée, la congruence, la présence d'erreur
-% 7)responseTime,8)eventResponse,9)correctResponses, 10)isCorrectResponse.
-% At the end, you will have the estimated threshold 't' (log(10)contrast) and
-% the standard deviation 'sd'. You can also plot the coherence for each event for each run of a participant('eventCoherence').
+% La valeur de R et de P d'une corrélation entre la congruence et les TR
+% est ressortie
 
-% To run, you will need Psychtoolbox (http://psychtoolbox.org).
-% You must also adjust the parameters for your monitor setting (monitor width and viewing
-% distance) which will then be converted to degrees of visual angles.
+% Vous aurez besoin de Psychtoolbox (http://psychtoolbox.org).
+% Vous aurez besion du fichier .txt 'Frtuit.txt' et le dossier
+% 'Immages_load'
 
-% Script fait par Guillaume Blais & Rémy El-Nemr % Haruhi-chan (2020)
+% Script fait par Guillaume Blais & Rémy El-Nemr(2020)
 % guillaume.blais@umontreal.ca & remy.el-nemr@umontreal.ca 
 %%
 file_name=['Squelette_sujet_',char(subName)];
@@ -33,7 +32,6 @@ if exist(file_name,'dir')
 	warning('Ce numéro de participant existe déja. Entrez en un autre')
     reenter = input('Overwrite (y/n)? ', 's');
     if strcmp(reenter, 'n')
-    	%subNum = str2double(input('Entrez un autre numéro: ', 's'));
         subName=input('Entrez un autre nom');
         file_name=['Squelette_sujet_',char(subName)];              
     end
@@ -41,6 +39,7 @@ if exist(file_name,'dir')
 end
 %%
 %Les paramètres de l'écran
+Screen(‘Preference’,’VisualDebugLevel’, 0);
 Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
 KbName('UnifyKeyNames'); 
 AssertOpenGL;
