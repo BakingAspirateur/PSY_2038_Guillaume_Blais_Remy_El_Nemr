@@ -1,18 +1,18 @@
 function experience = Squelette(subName, trial)
-% On vérifie si le document existe
 
 %% Tâche visuelle de congruence de quantité
 %Dans cette expérience, le PTB est utilisé pour afficher des images chargée
 %d'un dossier suivie d'une suite de mot, adjectif-nom, qui seront
 %congruents ou non avec la quantité de l'image. 
 
-%Référence:Arcara, Giorgio; Franzon, Francesca; Gastaldon, Simone; Brotto, Silvia; Semenza, Carlo; Peressotti, Francesca; Zanini, Chiara (2019). One can be some but some cannot be one: ERP correlates of numerosity incongruence are different for singular and plural. Cortex, 116:104-121.
+%Référence:Arcara, Giorgio et al. (2019). One can be some but some cannot be one: ERP correlates of numerosity incongruence are different for singular and plural. Cortex, 116:104-121.
 %Frederic Gosselin
 
 % L'expérience principale se trouve dans le fichier: 'PSY_2038_Guillaume_Blais_Remy_El_Nemr', 
 % Les fonctions annexes sont à la fin du scripte
 
 % Le scripte crée un dossier 'Squelette_Sujet_[Nom_du_participant]
+%Le nom du participant doit impérativement être un string 'NOM'
 % Le ficher MAT et un fichier excel sont sauvegardés dans ce dossier 
 % Un array est transformé en tableau et sauvegardé;
 %le tableau comporte les variables suivantes: Participant, les 4 mots, les TR, la
@@ -26,7 +26,11 @@ function experience = Squelette(subName, trial)
 
 % Script fait par Guillaume Blais & Rémy El-Nemr(2020)
 % guillaume.blais@umontreal.ca & remy.el-nemr@umontreal.ca 
+%Script présenté à Simon Faghel-Soubeyra dans le cadre du cours PSY2038,
+%Programmation en neuroscience cognitive
 %%
+% On vérifie si le document existe seulement dans les vraies stimulations
+if trial ~=0
 file_name=['Squelette_sujet_',char(subName)];
 if exist(file_name,'dir')
 	warning('Ce numéro de participant existe déja. Entrez en un autre')
@@ -36,6 +40,7 @@ if exist(file_name,'dir')
         file_name=['Squelette_sujet_',char(subName)];              
     end
     
+end
 end
 %%
 %Les paramètres de l'écran
@@ -62,13 +67,6 @@ min(etendue)
 max(etendue)
 un_son = sin(2 * pi * freq * etendue);
 %%
-%Ca c'est le nom des axes pour le tableau excel.
-colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence', 'Erreur'};
-myFolder2 = ('PSY_2038_Guillaume_Blais_Remy_El_Nemr');
-myFolder2=what(myFolder2);
-    myFolder2=myFolder2.path;
-myFolder3=[myFolder2 '\' file_name];
-mkdir(myFolder3); %Création du dossier
 rng='shuffle';
 counter = 0;
 %On utilise la fonction pour loader les mots d'un .txt file
@@ -79,21 +77,14 @@ idx=randperm(max(size(ArrStr)), max(size(ArrStr)));%La suite de nombres random
 images = load_les_images; %Load les images
 images=changer_taille_image(images);%Cette fonction va resize les images
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
-
 %%
 %Affichage des consignes
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 HideCursor;
 Screen(windowPtr,'TextFont', 'Arial');
-consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
-consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
-consigne3='Appuyez sur la touche Espace pour commencer.';
-
-
-
-Screen('DrawText', windowPtr, consigne1, (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4);
-Screen('DrawText', windowPtr, consigne2, (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4+(resolutions.height*0.15));
-Screen('DrawText', windowPtr, consigne3, (resolutions.width/4)+(resolutions.width*0.128), resolutions.height/4+(resolutions.height*0.30));
+Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4);
+Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4+(resolutions.height*0.15));
+Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (resolutions.width/4)+(resolutions.width*0.128), resolutions.height/4+(resolutions.height*0.30));
 %%Faudra juste aligner les textes, il est 2h20am sorry
 Screen('Flip', windowPtr);
 ListenChar(1);
@@ -117,8 +108,8 @@ for z=1:max(size(ArrStr))
     WaitSecs(1);
     for x=1:2 %Chaque suite de mots est composée de 2 mots
         Screen('TextSize', windowPtr, 100);
-        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
-        Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), resolutions.width*.45, resolutions.height*0.465);
+        Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
+        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), resolutions.width*.45, resolutions.height*0.465);
         Screen('Flip', windowPtr);
         WaitSecs(0.3);
     end
@@ -146,26 +137,12 @@ for z=1:max(size(ArrStr))
          sca;
          return;
      end
+     if trial ~=0
     Array_congruence(z)=congruence; %donne un boolean pour la congruence
-    Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence, erreur]};
+    Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence, erreur]}; %On save les résultats dans un array
+     end
 end
-%on sauvegarde le gros array en .xlsx
-%On transforme en table pour sortir les valeurs en
-%horizontal, on change en array pour concrétiser les 8 valeurs et on
-%rechange en table AVEC le nom des axes.
-Array_table=cell2table(Array_final.');
-Array_table=table2array(Array_table);
-Array_table=cell2table(Array_table, 'VariableNames',colname);
-[R,P]=corrcoef(double(Array_congruence.'),Array_TR.');
-save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence','R', 'P');
-writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
-figure();
-plot(Array_TR);
-xlabel('Essai'),ylabel('TR'), title('Distribution des TR par les essais');
-ShowCursor;
-ListenChar(1);
-sca;
-
+sauvegarde;
 %%
 %Voici la fonction pour la croix de fixation
 function fabriquer_fixation(resolutions,windowPtr)
@@ -193,22 +170,11 @@ end
 
 ListenChar(2);
     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
+       
         if  strcmp(temp, exitKey)
-            Screen('DrawText', windowPtr, 'Abortion de la présentation', resolutions.width*.24, resolutions.height*.465);   
-            Screen('Flip', windowPtr);
-            %excel en ayant des noms d'axes
-            Array_table=cell2table((Array_final.'));
-            Array_table=table2array(Array_table);
-            Array_table=cell2table(Array_table, 'VariableNames',colname);
-            [R,P]=corrcoef(double(Array_congruence.'),Array_TR.');
-            save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence','R','P');
-            writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
-            plot(Array_TR);
-            xlabel('Essai'),ylabel('TR'),title('Distribution des TR par les essais');           
-            WaitSecs(2);
-            ShowCursor;
-            ListenChar(1);    
-            sca;   
+            Screen('DrawText', windowPtr, 'Closure de la stimulation', resolutions.width*.24, resolutions.height*.465);   
+            Screen('Flip', windowPtr);   
+            sauvegarde;
             break;
         end
         ListenChar(2);
@@ -277,4 +243,29 @@ function images = load_les_images
     jj=ii; %Permet de garder l'élément 1
     end
 end
+%%
+function sauvegarde
+    %La fonction qui permet de sauvegarder le tout et de faire un tableau
+    %Excel ET matlab
+    %La fonction crée aussi le dossier dans lequel ca sera sauvegardé
+    colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence', 'Erreur'};
+    myFolder2 = ('PSY_2038_Guillaume_Blais_Remy_El_Nemr');
+    myFolder2=what(myFolder2);
+    myFolder2=myFolder2.path;
+    myFolder3=[myFolder2 '\' file_name];
+    mkdir(myFolder3); %Création du dossier
+    Array_table=cell2table((Array_final.'));
+    Array_table=table2array(Array_table);
+    Array_table=cell2table(Array_table, 'VariableNames',colname);
+    [R,P]=corrcoef(double(Array_congruence.'),Array_TR.');
+    save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence','R','P');
+    writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
+    plot(Array_TR);
+    xlabel('Essai'),ylabel('TR'),title('Distribution des TR par les essais');           
+    WaitSecs(2);
+    ShowCursor;
+    ListenChar(1);    
+    sca;   
+end
+
 end
