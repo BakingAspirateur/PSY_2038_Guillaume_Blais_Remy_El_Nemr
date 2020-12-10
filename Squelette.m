@@ -156,7 +156,7 @@ Screen('DrawLine', windowPtr, [0 0 0], width_in_mm*0.50+((height_in_mm*0.55-heig
 Screen('Flip', windowPtr);
 WaitSecs(0.5);
 end
-%
+%%
 %La fonction qui permet de rentrer les imputs et de sortir de la
 %stimulation, en sauvegardant les données en .xlsx
 function RT=entrer_imput(windowPtr)
@@ -176,7 +176,9 @@ end
 if strcmp(temp, exitKey)
     Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465);   
     Screen('Flip', windowPtr);
+    
     sauvegarde;
+    
     return;
 end
 
@@ -189,7 +191,9 @@ ListenChar(2);
         if  strcmp(temp2, exitKey)
             Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.22,height_in_mm*.465);   
             Screen('Flip', windowPtr);
+            
             sauvegarde;
+            
             break;
         end
         if strcmp(temp2, 'q') | strcmp(temp2, 'e')
@@ -259,6 +263,10 @@ function sauvegarde
     %La fonction qui permet de sauvegarder le tout et de faire un tableau
     %Excel ET matlab
     %La fonction crée aussi le dossier dans lequel ca sera sauvegardé
+    if (counter > 2) 
+       if(trial ~= 0)
+        %|| trial ~= 0
+    %if trial ~= 0 
     colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence', 'Erreur'};
     myFolder2 = ('PSY_2038_Guillaume_Blais_Remy_El_Nemr');
     myFolder2=what(myFolder2);
@@ -275,7 +283,8 @@ function sauvegarde
     writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
     plot(Array_TR);
     xlabel('Essai'),ylabel('TR'),title('Distribution des TR par les essais');   
-    
+       end
+    end
     WaitSecs(2);
     ShowCursor;
     ListenChar(1);    

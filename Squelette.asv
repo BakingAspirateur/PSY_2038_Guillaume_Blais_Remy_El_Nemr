@@ -33,7 +33,7 @@ function experience = Squelette(subName, trial)
 if trial ~=0
 file_name=['Squelette_sujet_',char(subName)];
 if exist(file_name,'dir')
-	warning('Ce numéro de participant existe déja. Entrez en un autre')
+	warning('Ce nom de participant existe déja.')
     reenter = input('Écraser le dossier ou non (n)? ', 's');
     if strcmp(reenter, 'n')
         subName=input('Entrez un autre nom');
@@ -57,6 +57,7 @@ pixel_in_mm = width_in_mm/resolutions.width;
 width_in_mm=width_in_mm/pixel_in_mm;
 height_in_mm=height_in_mm/pixel_in_mm;
 hz=Screen('FrameRate', screenNumber);
+size_font=round(pixel_in_mm*350);
 %%
 %%
 %Les propriétés du son
@@ -83,9 +84,9 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 HideCursor;
 Screen(windowPtr,'TextFont', 'Arial');
-Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (width_in_mm*0.32), height_in_mm*0.35);
-Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (width_in_mm*0.33), height_in_mm*0.50);
-Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (width_in_mm*0.40), height_in_mm*0.65);
+Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (width_in_mm*0.305), height_in_mm*0.35);
+Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (width_in_mm*0.29), height_in_mm*0.50);
+Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (width_in_mm*0.365), height_in_mm*0.64);
 %%Faudra juste aligner les textes, il est 2h20am sorry
 Screen('Flip', windowPtr);
 ListenChar(1);
@@ -101,21 +102,20 @@ ListenChar(0);
 %Main loop
 for z=1:max(size(ArrStr))
     counter = counter + 1;
-    fabriquer_fixation(resolutions,windowPtr); %Fait la croix de fixation
+    fabriquer_fixation(windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
     texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois
     Screen('DrawTexture', windowPtr,texturePtr(1) );
     Screen('Flip', windowPtr)
     WaitSecs(1);
     for x=1:2 %Chaque suite de mots est composée de 2 mots
-        Screen('TextSize', windowPtr, 100);
+        Screen('TextSize', windowPtr, size_font);
         Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
-        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), width_in_mm*.45, height_in_mm*0.465);
         Screen('Flip', windowPtr);
         WaitSecs(0.3);
     end
     Screen('Flip', windowPtr);
-    RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
+    RT=entrer_imput(windowPtr); %Fonction des imput
     
     %Sauvegarde des données dans 3 arrays
     mot=ArrStr{montrer}; 
@@ -150,9 +150,7 @@ WaitSecs(2.0);
 sauvegarde;
 %%
 %Voici la fonction pour la croix de fixation
-function fabriquer_fixation(resolutions,windowPtr)
-%Screen('DrawLine', windowPtr, [0 0 0], width_in_mm/2, height_in_mm*0.45, width_in_mm/2, height_in_mm*0.55, 5);
-%Screen('DrawLine', windowPtr, [0 0 0], width_in_mm*0.50+((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, width_in_mm*0.50-((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, 5);
+function fabriquer_fixation(windowPtr)
 Screen('DrawLine', windowPtr, [0 0 0], width_in_mm/2, height_in_mm*0.45, width_in_mm/2, height_in_mm*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], width_in_mm*0.50+((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, width_in_mm*0.50-((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, 5);
 Screen('Flip', windowPtr);
@@ -161,7 +159,7 @@ end
 %%
 %La fonction qui permet de rentrer les imputs et de sortir de la
 %stimulation, en sauvegardant les données en .xlsx
-function RT=entrer_imput(resolutions,windowPtr)
+function RT=entrer_imput(windowPtr)
 start = GetSecs;
 exitKey = 'l';
 ListenChar(2);
@@ -175,23 +173,29 @@ if strcmp(temp, 'q') | strcmp(temp, 'e')
     return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
 end
 
+if strcmp(temp, exitKey)
+    Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465);   
+    Screen('Flip', windowPtr);
+    
+    sauvegarde;
+    
+    return;
+end
+
 ListenChar(2);
     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
-       
-        if  strcmp(temp, exitKey)
-            Screen('TextSize', windowPtr, 50);
-            Screen('DrawText', windowPtr, 'Closure de la stimulation', width_in_mm*.20, height_in_mm*.465);   
-            Screen('Flip', windowPtr);
-            sauvegarde;
-            break;
-            
-            end
-            
-    
-        
+        %Cette partie permet de quitter la stimulation
         ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
+        if  strcmp(temp2, exitKey)
+            Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.22,height_in_mm*.465);   
+            Screen('Flip', windowPtr);
+            
+            sauvegarde;
+            
+            break;
+        end
         if strcmp(temp2, 'q') | strcmp(temp2, 'e')
             ListenChar(0);
             break; 
@@ -200,7 +204,6 @@ ListenChar(2);
 RT = secs - start;
 RT = {RT, temp2};
 ListenChar(0);
-
 end
 %%
 %La fonction qui permet de resize les images en 400x400
@@ -260,20 +263,26 @@ function sauvegarde
     %La fonction qui permet de sauvegarder le tout et de faire un tableau
     %Excel ET matlab
     %La fonction crée aussi le dossier dans lequel ca sera sauvegardé
+    if counter > 2 
+        %|| trial ~= 0
+    %if trial ~= 0 
     colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence', 'Erreur'};
     myFolder2 = ('PSY_2038_Guillaume_Blais_Remy_El_Nemr');
     myFolder2=what(myFolder2);
     myFolder2=myFolder2.path;
     myFolder3=[myFolder2 '\' file_name];
     mkdir(myFolder3); %Création du dossier
+    
     Array_table=cell2table((Array_final.'));
     Array_table=table2array(Array_table);
     Array_table=cell2table(Array_table, 'VariableNames',colname);
+    
     [R,P]=corrcoef(double(Array_congruence.'),Array_TR.');
     save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence','R','P');
     writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
     plot(Array_TR);
-    xlabel('Essai'),ylabel('TR'),title('Distribution des TR par les essais');           
+    xlabel('Essai'),ylabel('TR'),title('Distribution des TR par les essais');   
+    end
     WaitSecs(2);
     ShowCursor;
     ListenChar(1);    
