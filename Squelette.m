@@ -57,6 +57,7 @@ pixel_in_mm = width_in_mm/resolutions.width;
 width_in_mm=width_in_mm/pixel_in_mm;
 height_in_mm=height_in_mm/pixel_in_mm;
 hz=Screen('FrameRate', screenNumber);
+size_font=round(pixel_in_mm*350);
 %%
 %%
 %Les propriétés du son
@@ -108,7 +109,7 @@ for z=1:max(size(ArrStr))
     Screen('Flip', windowPtr)
     WaitSecs(1);
     for x=1:2 %Chaque suite de mots est composée de 2 mots
-        Screen('TextSize', windowPtr, 50);
+        Screen('TextSize', windowPtr, size_font);
         Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
         Screen('Flip', windowPtr);
         WaitSecs(0.3);
@@ -264,14 +265,17 @@ function sauvegarde
     myFolder2=myFolder2.path;
     myFolder3=[myFolder2 '\' file_name];
     mkdir(myFolder3); %Création du dossier
+    
     Array_table=cell2table((Array_final.'));
     Array_table=table2array(Array_table);
     Array_table=cell2table(Array_table, 'VariableNames',colname);
+    
     [R,P]=corrcoef(double(Array_congruence.'),Array_TR.');
     save([myFolder3 '\' file_name], 'Array_table', 'Array_TR', 'Array_congruence','R','P');
     writetable(Array_table, [myFolder3 '\' file_name '.xlsx']);
     plot(Array_TR);
-    xlabel('Essai'),ylabel('TR'),title('Distribution des TR par les essais');           
+    xlabel('Essai'),ylabel('TR'),title('Distribution des TR par les essais');   
+    
     WaitSecs(2);
     ShowCursor;
     ListenChar(1);    
