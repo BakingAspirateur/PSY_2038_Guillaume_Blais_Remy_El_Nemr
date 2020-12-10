@@ -180,7 +180,7 @@ ListenChar(2);
         ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
-        if  strcmp(temp, exitKey)
+        if  strcmp(temp2, exitKey)
             Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465);   
             Screen('Flip', windowPtr);
             sauvegarde;
