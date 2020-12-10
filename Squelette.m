@@ -33,7 +33,7 @@ function experience = Squelette(subName, trial)
 if trial ~=0
 file_name=['Squelette_sujet_',char(subName)];
 if exist(file_name,'dir')
-	warning('Ce numéro de participant existe déja. Entrez en un autre')
+	warning('Ce nom de participant existe déja.')
     reenter = input('Écraser le dossier ou non (n)? ', 's');
     if strcmp(reenter, 'n')
         subName=input('Entrez un autre nom');
@@ -110,7 +110,6 @@ for z=1:max(size(ArrStr))
     for x=1:2 %Chaque suite de mots est composée de 2 mots
         Screen('TextSize', windowPtr, 100);
         Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
-        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), width_in_mm*.45, height_in_mm*0.465);
         Screen('Flip', windowPtr);
         WaitSecs(0.3);
     end
