@@ -263,7 +263,7 @@ function sauvegarde
     %La fonction qui permet de sauvegarder le tout et de faire un tableau
     %Excel ET matlab
     %La fonction crée aussi le dossier dans lequel ca sera sauvegardé
-    if (counter > 2) 
+    if (counter >= 2) 
        if(trial ~= 0)
         %|| trial ~= 0
     %if trial ~= 0 
