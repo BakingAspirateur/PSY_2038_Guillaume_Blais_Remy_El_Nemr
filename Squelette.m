@@ -175,6 +175,13 @@ if strcmp(temp, 'q') | strcmp(temp, 'e')
     return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
 end
 
+if strcmp(temp, exitKey)
+    Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465);   
+    Screen('Flip', windowPtr);
+    sauvegarde;
+    return;
+end
+
 ListenChar(2);
     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
         %Cette partie permet de sauvegarder meme si
