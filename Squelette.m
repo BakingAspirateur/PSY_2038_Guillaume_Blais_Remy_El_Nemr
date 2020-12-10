@@ -83,9 +83,9 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 HideCursor;
 Screen(windowPtr,'TextFont', 'Arial');
-Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (width_in_mm*0.315), height_in_mm*0.35);
-Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (width_in_mm*0.30), height_in_mm*0.50);
-Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (width_in_mm*0.365), height_in_mm*0.65);
+Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (width_in_mm*0.305), height_in_mm*0.35);
+Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (width_in_mm*0.29), height_in_mm*0.50);
+Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (width_in_mm*0.365), height_in_mm*0.64);
 %%Faudra juste aligner les textes, il est 2h20am sorry
 Screen('Flip', windowPtr);
 ListenChar(1);
@@ -101,20 +101,20 @@ ListenChar(0);
 %Main loop
 for z=1:max(size(ArrStr))
     counter = counter + 1;
-    fabriquer_fixation(resolutions,windowPtr); %Fait la croix de fixation
+    fabriquer_fixation(windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
     texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois
     Screen('DrawTexture', windowPtr,texturePtr(1) );
     Screen('Flip', windowPtr)
     WaitSecs(1);
     for x=1:2 %Chaque suite de mots est composée de 2 mots
-        Screen('TextSize', windowPtr, 100);
+        Screen('TextSize', windowPtr, 50);
         Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
         Screen('Flip', windowPtr);
         WaitSecs(0.3);
     end
     Screen('Flip', windowPtr);
-    RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
+    RT=entrer_imput(windowPtr); %Fonction des imput
     
     %Sauvegarde des données dans 3 arrays
     mot=ArrStr{montrer}; 
@@ -149,9 +149,7 @@ WaitSecs(2.0);
 sauvegarde;
 %%
 %Voici la fonction pour la croix de fixation
-function fabriquer_fixation(resolutions,windowPtr)
-%Screen('DrawLine', windowPtr, [0 0 0], width_in_mm/2, height_in_mm*0.45, width_in_mm/2, height_in_mm*0.55, 5);
-%Screen('DrawLine', windowPtr, [0 0 0], width_in_mm*0.50+((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, width_in_mm*0.50-((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, 5);
+function fabriquer_fixation(windowPtr)
 Screen('DrawLine', windowPtr, [0 0 0], width_in_mm/2, height_in_mm*0.45, width_in_mm/2, height_in_mm*0.55, 5);
 Screen('DrawLine', windowPtr, [0 0 0], width_in_mm*0.50+((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, width_in_mm*0.50-((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, 5);
 Screen('Flip', windowPtr);
@@ -160,7 +158,7 @@ end
 %
 %La fonction qui permet de rentrer les imputs et de sortir de la
 %stimulation, en sauvegardant les données en .xlsx
-function RT=entrer_imput(resolutions,windowPtr)
+function RT=entrer_imput(windowPtr)
 start = GetSecs;
 exitKey = 'l';
 ListenChar(2);
@@ -176,19 +174,16 @@ end
 
 ListenChar(2);
     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
-        %Cette partie permet de sauvegarder meme si
+        %Cette partie permet de quitter la stimulation
         ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
         if  strcmp(temp2, exitKey)
-            Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465);   
+            Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.22,height_in_mm*.465);   
             Screen('Flip', windowPtr);
             sauvegarde;
             break;
         end
-        %ListenChar(2);
-       % [secs, keyCode2, deltaSecs] = KbWait([],2);
-       % temp2 = KbName(keyCode2);
         if strcmp(temp2, 'q') | strcmp(temp2, 'e')
             ListenChar(0);
             break; 
