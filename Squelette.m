@@ -34,7 +34,7 @@ if trial ~=0
 file_name=['Squelette_sujet_',char(subName)];
 if exist(file_name,'dir')
 	warning('Ce numéro de participant existe déja. Entrez en un autre')
-    reenter = input('Overwrite (y/n)? ', 's');
+    reenter = input('Écraser le dossier ou non (n)? ', 's');
     if strcmp(reenter, 'n')
         subName=input('Entrez un autre nom');
         file_name=['Squelette_sujet_',char(subName)];              
@@ -50,14 +50,14 @@ KbName('UnifyKeyNames');
 AssertOpenGL;
 screens=Screen('Screens');
 screenNumber=max(screens); % va toujours chercher l'écran secondaire
+%screenNumber=1;
 [width_in_mm, height_in_mm]=Screen('DisplaySize', screenNumber);
 resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
+width_in_mm=width_in_mm/pixel_in_mm;
+height_in_mm=height_in_mm/pixel_in_mm;
 hz=Screen('FrameRate', screenNumber);
 %%
-% Set maximum priority level
-%priorityLevel = MaxPriority(Cfg.win);  % prioritize over other computer processes
-%Priority(priorityLevel)
 %%
 %Les propriétés du son
 Fe = 44100;     
@@ -83,9 +83,9 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 HideCursor;
 Screen(windowPtr,'TextFont', 'Arial');
-Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4);
-Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (resolutions.width/4)+(resolutions.width*0.072), resolutions.height/4+(resolutions.height*0.15));
-Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (resolutions.width/4)+(resolutions.width*0.128), resolutions.height/4+(resolutions.height*0.30));
+Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (width_in_mm*0.315), height_in_mm*0.35);
+Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (width_in_mm*0.30), height_in_mm*0.50);
+Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (width_in_mm*0.365), height_in_mm*0.65);
 %%Faudra juste aligner les textes, il est 2h20am sorry
 Screen('Flip', windowPtr);
 ListenChar(1);
@@ -109,13 +109,14 @@ for z=1:max(size(ArrStr))
     WaitSecs(1);
     for x=1:2 %Chaque suite de mots est composée de 2 mots
         Screen('TextSize', windowPtr, 100);
-        Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (resolutions.width/2)-((max(size(ArrStr{montrer}(x)))*2)*(resolutions.width/250))-resolutions.width*.05, resolutions.height*0.465); 
-        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), resolutions.width*.45, resolutions.height*0.465);
+        Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
+        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), width_in_mm*.45, height_in_mm*0.465);
         Screen('Flip', windowPtr);
         WaitSecs(0.3);
     end
     Screen('Flip', windowPtr);
     RT=entrer_imput(resolutions,windowPtr); %Fonction des imput
+    
     %Sauvegarde des données dans 3 arrays
     mot=ArrStr{montrer}; 
     image_mot=Array_pour_les_images{montrer};
@@ -143,16 +144,21 @@ for z=1:max(size(ArrStr))
     Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence, erreur]}; %On save les résultats dans un array
      end
 end
+Screen('DrawText', windowPtr, 'Fin de la stimulation', width_in_mm*.20, height_in_mm*.465);
+Screen('Flip', windowPtr);
+WaitSecs(2.0);
 sauvegarde;
 %%
 %Voici la fonction pour la croix de fixation
 function fabriquer_fixation(resolutions,windowPtr)
-Screen('DrawLine', windowPtr, [0 0 0], resolutions.width/2, resolutions.height*0.45, resolutions.width/2, resolutions.height*0.55, 5);
-Screen('DrawLine', windowPtr, [0 0 0], resolutions.width*0.50+((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, resolutions.width*0.50-((resolutions.height*0.55-resolutions.height*0.45)/2), resolutions.height/2, 5);
+%Screen('DrawLine', windowPtr, [0 0 0], width_in_mm/2, height_in_mm*0.45, width_in_mm/2, height_in_mm*0.55, 5);
+%Screen('DrawLine', windowPtr, [0 0 0], width_in_mm*0.50+((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, width_in_mm*0.50-((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, 5);
+Screen('DrawLine', windowPtr, [0 0 0], width_in_mm/2, height_in_mm*0.45, width_in_mm/2, height_in_mm*0.55, 5);
+Screen('DrawLine', windowPtr, [0 0 0], width_in_mm*0.50+((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, width_in_mm*0.50-((height_in_mm*0.55-height_in_mm*0.45)/2), height_in_mm/2, 5);
 Screen('Flip', windowPtr);
 WaitSecs(0.5);
 end
-%%
+%
 %La fonction qui permet de rentrer les imputs et de sortir de la
 %stimulation, en sauvegardant les données en .xlsx
 function RT=entrer_imput(resolutions,windowPtr)
@@ -171,16 +177,19 @@ end
 
 ListenChar(2);
     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
-       
-        if  strcmp(temp, exitKey)
-            Screen('DrawText', windowPtr, 'Closure de la stimulation', resolutions.width*.24, resolutions.height*.465);   
-            Screen('Flip', windowPtr);   
-            sauvegarde;
-            break;
-        end
+        %Cette partie permet de sauvegarder meme si
         ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
+        if  strcmp(temp, exitKey)
+            Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465);   
+            Screen('Flip', windowPtr);
+            sauvegarde;
+            break;
+        end
+        %ListenChar(2);
+       % [secs, keyCode2, deltaSecs] = KbWait([],2);
+       % temp2 = KbName(keyCode2);
         if strcmp(temp2, 'q') | strcmp(temp2, 'e')
             ListenChar(0);
             break; 
@@ -189,7 +198,6 @@ ListenChar(2);
 RT = secs - start;
 RT = {RT, temp2};
 ListenChar(0);
-
 end
 %%
 %La fonction qui permet de resize les images en 400x400
