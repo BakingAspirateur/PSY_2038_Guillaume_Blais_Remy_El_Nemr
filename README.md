@@ -15,7 +15,7 @@ Pour faire fonctionner le programme, vous aurez besoin de:
 
 -MATLAB
 
--Microsoft Excel
+-Microsoft Excel (Facultatif pour visionner les données hors de MATLAB).
 
 ## Installation
 
