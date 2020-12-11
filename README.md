@@ -39,6 +39,7 @@ Par exemple, si le nom du participant est Maxime, et que vous voulez rouler le b
 ## Contributeurs
 
 [Guillaume Blais](https://github.com/BakingAspirateur)
+
 [Rémy El-Nemr](https://github.com/RemyNmr)
 
 
