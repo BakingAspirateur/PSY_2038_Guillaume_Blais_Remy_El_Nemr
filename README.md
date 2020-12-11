@@ -28,7 +28,12 @@ Pour lancer le programme, il suffit d'entrer dans la console la ligne de code su
 `Squelette('NOM',TRIAL)`
 
 *NOM* correspond au nom de votre participant.
+
 *TRIAL* correspond au type de bloc - pour le bloc d'entrainement, **TRIAL = 0**. Pour le bloc d'essais, **TRIAL = 1.**
+
+Par exemple, si le nom du participant est Maxime, et que vous voulez rouler le bloc d'essais, il vous suffira d'écrire:
+
+`Squelette('maxime',1)`
 
 ## Contributeurs
 
