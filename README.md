@@ -11,6 +11,7 @@ Ce programme affiche des pairs images-mots. Une image est affichée, et une sér
 ## Prérequis
 
 Pour faire fonctionner le programme, vous aurez besoin de:
+
 -[L'installation intégrale de Psychtoolbox](http://psychtoolbox.org/download). 
 
 -MATLAB
