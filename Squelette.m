@@ -5,11 +5,14 @@ function experience = Squelette(subName, trial)
 %d'un dossier suivie d'une suite de mot, adjectif-nom, qui seront
 %congruents ou non avec la quantité de l'image. 
 
+%Pour lancer le code, entrez Squelette('NOM_PARTICIPANT',trial) ou trial
+%est 0 pour un test run et ~0 pour une vraie stimulation. Le nom du
+%participant doit etre un string entre '', meme si c'est un numero. 
 
 %Référence:Arcara, Giorgio et al. (2019). One can be some but some cannot be one: ERP correlates of numerosity incongruence are different for singular and plural. Cortex, 116:104-121.
 %Frederic Gosselin
 
-% L'expérience principale se trouve dans le fichier: 'PSY_2038_Guillaume_Blais_Remy_El_Nemr', 
+% L'expérience principale se trouve dans le dossier: 'PSY_2038_Guillaume_Blais_Remy_El_Nemr', 
 % Les fonctions annexes sont à la fin du scripte
 
 % Le scripte crée un dossier 'Squelette_Sujet_[Nom_du_participant]
@@ -36,9 +39,12 @@ file_name=['Squelette_sujet_',char(subName)];
 if exist(file_name,'dir')
 	warning('Ce nom de participant existe déja.')
     reenter = input('Écraser le dossier ou non (n)? ', 's');
+    subName2=subName;
     if strcmp(reenter, 'n')
-        subName=input('Entrez un autre nom');
-        file_name=['Squelette_sujet_',char(subName)];              
+        while strcmp(subName2,subName)
+        subName2=input('Entrez un autre nom'); %Force l'utilisateur à ne pas remettre le meme nom
+        end
+        file_name=['Squelette_sujet_',char(subName2)];  
     end
     
 end
@@ -46,22 +52,16 @@ end
 %%
 %Les paramètres de l'écran
 Screen('Preference','VisualDebugLevel', 0);
-Screen('Preference', 'SkipSyncTests', 1);    % put 1 if the sync test fails
+Screen('Preference', 'SkipSyncTests', 1);    % permet de lancer la stimulation
 KbName('UnifyKeyNames'); 
 AssertOpenGL;
 screens=Screen('Screens');
 screenNumber=max(screens); % va toujours chercher l'écran secondaire
-%screenNumber=1;
 [width_in_mm, height_in_mm]=Screen('DisplaySize', screenNumber);
 resolutions = Screen('Resolution', screenNumber);
 pixel_in_mm = width_in_mm/resolutions.width;
-width_in_mm=width_in_mm/pixel_in_mm;
-height_in_mm=height_in_mm/pixel_in_mm;
-hz=Screen('FrameRate', screenNumber);
-%Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
-%size_font=round(100*pixel_in_mm);
-
-%%
+width_in_mm=width_in_mm/pixel_in_mm; %Revient à la meme valeur que Résulution...
+height_in_mm=height_in_mm/pixel_in_mm; %Revient à la meme valeur que Résulution...
 %%
 %Les propriétés du son
 Fe = 44100;     
@@ -73,8 +73,7 @@ max(etendue)
 un_son = sin(2 * pi * freq * etendue);
 %%
 PsychDefaultSetup(2);
-rng='shuffle';
-counter = 0;
+counter = 0; %Permet de terminer le trial et d'éviter les erreurs si on enregistre 0 réponses
 %On utilise la fonction pour loader les mots d'un .txt file
 ArrStr = creer_array;
 Array_pour_les_images=ArrStr;%On dédouble l'array pour les résultats
@@ -82,23 +81,16 @@ ArrStr = randmise_des_mots(ArrStr,0); %Ici, on randomise 4 éléments à la fois
 idx=randperm(max(size(ArrStr)), max(size(ArrStr)));%La suite de nombres random
 images = load_les_images; %Load les images
 images=changer_taille_image(images);%Cette fonction va resize les images
+font_size=100;%La taille de police pourra etre changée pour les grands écrans
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
-
 %%
 %Affichage des consignes
 HideCursor;
-Screen('TextSize', windowPtr, 30);
-Screen(windowPtr,'TextFont', 'Arial');
-consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
-consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
-consigne3='Appuyez sur la touche Espace pour commencer.';
-DrawFormattedText(windowPtr, consigne1, 'center',  height_in_mm*0.35);
-DrawFormattedText(windowPtr, consigne2, 'center', height_in_mm*0.50);
-DrawFormattedText(windowPtr, consigne3, 'center', height_in_mm*0.64);
-%Screen('DrawText', windowPtr, consigne1, width_in_mm*0.25, height_in_mm*0.35);
-%Screen('DrawText', windowPtr, consigne1, width_in_mm*0.5-log(((strlength(consigne1)/size_font)/pixel_in_mm)*strlength(consigne1))*strlength(consigne1), height_in_mm*0.35);
-%Screen('DrawText', windowPtr, consigne2, width_in_mm*0.5-log(((strlength(consigne2)/size_font)/pixel_in_mm)*strlength(consigne2))*strlength(consigne2), height_in_mm*0.50);
-%Screen('DrawText', windowPtr, consigne3, width_in_mm*0.5-log(((strlength(consigne3)/size_font)/pixel_in_mm)*strlength(consigne3))*strlength(consigne3), height_in_mm*0.64);
+Screen('TextSize', windowPtr, font_size/2); 
+Screen(windowPtr,'TextFont', 'Arial'); %On utilise DrawFormattedText pour que ce soit centré
+DrawFormattedText(windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', 'center',  height_in_mm*0.35);
+DrawFormattedText(windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', 'center', height_in_mm*0.50);
+DrawFormattedText(windowPtr, 'Appuyez sur la touche Espace pour commencer.', 'center', height_in_mm*0.64);
 Screen('Flip', windowPtr);
 ListenChar(1);
 [secs, keyCodeI, deltaSecs] = KbWait([],2);
@@ -111,23 +103,26 @@ end
 ListenChar(0);
 %%
 %Main loop
-Screen('TextSize', windowPtr, 100);
 for z=1:max(size(ArrStr))
     counter = counter + 1;
     
     fabriquer_fixation(windowPtr); %Fait la croix de fixation
+    %Ici on montre les imaes
     montrer=idx(z); %montrer est ma valeur randomisée
     texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois
     Screen('DrawTexture', windowPtr,texturePtr(1) );
     Screen('Flip', windowPtr)
     WaitSecs(1);
+    %La boucle suivante permet de montrer les deux mots
     for x=1:2 %Chaque suite de mots est composée de 2 mots
+       Screen('TextSize', windowPtr, font_size);
        DrawFormattedText(windowPtr, char(ArrStr{montrer}(x)), 'center', 'center');
-        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
-        Screen('Flip', windowPtr);
-        WaitSecs(0.3);
+       Screen('TextSize', windowPtr, font_size/2);
+       Screen('Flip', windowPtr);
+       WaitSecs(0.3);
     end
-    Screen('Flip', windowPtr);
+    Screen('Flip', windowPtr); %permet d'effacer le tout
+    
     RT=entrer_imput(windowPtr); %Fonction des imput
     
     %Sauvegarde des données dans 3 arrays
@@ -135,7 +130,7 @@ for z=1:max(size(ArrStr))
     image_mot=Array_pour_les_images{montrer};
     congruence= strcmp(mot{2},image_mot{2});
     Array_TR(z)=[RT{1}]; %permet de visualiser les TR
-    erreur=0;
+    erreur=0; %On retourne l'erreur à la valeru 0 à chaque fois
     %On essaie de faire du feedback
     if (congruence == true && strcmp(RT{2},'e'))
         sound(un_son, Fe);
@@ -147,7 +142,7 @@ for z=1:max(size(ArrStr))
             erreur='ERREUR';
             WaitSecs(0.4);
      end
-    
+     %%On veut finir le test run
      if trial == 0 && counter == 4
          sca;
          return;
@@ -157,8 +152,8 @@ for z=1:max(size(ArrStr))
     Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence, erreur]}; %On save les résultats dans un array
      end
 end
-%Screen('DrawText', windowPtr, 'Fin de la stimulation', width_in_mm*.20, height_in_mm*.465);
-Screen('TextSize', windowPtr, 50);
+%%
+%Fin de la stimulation
 DrawFormattedText(windowPtr, 'Fin de la stimulation', 'center', 'center'); 
 Screen('Flip', windowPtr);
 WaitSecs(2.0);
@@ -173,7 +168,7 @@ WaitSecs(0.5);
 end
 %%
 %La fonction qui permet de rentrer les imputs et de sortir de la
-%stimulation, en sauvegardant les données en .xlsx
+%stimulation, en sauvegardant
 function RT=entrer_imput(windowPtr)
 start = GetSecs;
 exitKey = 'l';
@@ -189,13 +184,9 @@ if strcmp(temp, 'q') | strcmp(temp, 'e')
 end
 
 if strcmp(temp, exitKey)
-    %Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465); 
-    Screen('TextSize', windowPtr, 50);
     DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
-    Screen('Flip', windowPtr);
-    
-    sauvegarde;
-    
+    Screen('Flip', windowPtr);   
+    sauvegarde;   
     return;
 end
 
@@ -206,14 +197,11 @@ ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
         if  strcmp(temp2, exitKey)
-            Screen('TextSize', windowPtr, 50);
-            DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
-            %Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.22,height_in_mm*.465);   
-            Screen('Flip', windowPtr);
-            
+            DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
+            Screen('Flip', windowPtr);        
             sauvegarde;
-            
             break;
+            
         end
         if strcmp(temp2, 'q') | strcmp(temp2, 'e')
             ListenChar(0);
@@ -248,8 +236,8 @@ end
 %La fonction qui load les mots d'un document .txt
 function ArrStr = creer_array
     ending1=0;
-    fidd=fopen('Fruit.txt'); %Le fichier est prédéfini
-    notre_array=textscan(fidd,'%s','delimiter','\n');
+    find_fichier=fopen('Fruit.txt'); %Le fichier est prédéfini
+    notre_array=textscan(find_fichier,'%s','delimiter','\n');
     for fine = 1 : (max(size(notre_array{1}))/2)
         ArrStr{fine} = [notre_array{1}(ending1+1), notre_array{1}(ending1+2)];
         ending1=ending1+2;
@@ -258,18 +246,21 @@ end
 %%
 %la fonction qui load les images ET qui les double
 function images = load_les_images   
+    %On trouve ou est le dossier
     myFolder = ('Images_load');
     myFolder=what(myFolder);
     myFolder=myFolder.path;
     filePattern = fullfile(myFolder, '*.png');
     pngFiles = dir(filePattern);
     jj=0;%Ceci permet de ne pas briser l'élément 1
+    %On fait un array avec toutes les images
     for k = 1:length(pngFiles)
         baseFileName = pngFiles(k).name;
         fullFileName = fullfile(myFolder, baseFileName);
         imageArray{k} = imread(fullFileName);     
     end
     images=imageArray;
+    %On double le tout
     for ii = 1 : max(size(imageArray))
         for kk = 0:1
         images{ii+kk+jj} = imageArray{ii};    
@@ -283,16 +274,14 @@ function sauvegarde
     %Excel ET matlab
     %La fonction crée aussi le dossier dans lequel ca sera sauvegardé
     if (counter >= 2) 
-       if(trial ~= 0)
-        %|| trial ~= 0
-    %if trial ~= 0 
+       if(trial ~= 0) 
     colname={'Stimulus', 'Déterminant_Mot', 'Nom_Mot', 'Déterminant_image', 'Nom_Image', 'TR','Lettre','Congruence', 'Erreur'};
     myFolder2 = ('PSY_2038_Guillaume_Blais_Remy_El_Nemr');
     myFolder2=what(myFolder2);
     myFolder2=myFolder2.path;
     myFolder3=[myFolder2 '\' file_name];
     mkdir(myFolder3); %Création du dossier
-    
+    %On fait le tableau
     Array_table=cell2table((Array_final.'));
     Array_table=table2array(Array_table);
     Array_table=cell2table(Array_table, 'VariableNames',colname);
