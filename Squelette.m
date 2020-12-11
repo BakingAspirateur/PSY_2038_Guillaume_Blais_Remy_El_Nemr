@@ -5,6 +5,7 @@ function experience = Squelette(subName, trial)
 %d'un dossier suivie d'une suite de mot, adjectif-nom, qui seront
 %congruents ou non avec la quantité de l'image. 
 
+
 %Référence:Arcara, Giorgio et al. (2019). One can be some but some cannot be one: ERP correlates of numerosity incongruence are different for singular and plural. Cortex, 116:104-121.
 %Frederic Gosselin
 
@@ -57,7 +58,9 @@ pixel_in_mm = width_in_mm/resolutions.width;
 width_in_mm=width_in_mm/pixel_in_mm;
 height_in_mm=height_in_mm/pixel_in_mm;
 hz=Screen('FrameRate', screenNumber);
-size_font=round(pixel_in_mm*350);
+%Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
+size_font=round(100*pixel_in_mm);
+
 %%
 %%
 %Les propriétés du son
@@ -69,6 +72,7 @@ min(etendue)
 max(etendue)
 un_son = sin(2 * pi * freq * etendue);
 %%
+PsychDefaultSetup(2);
 rng='shuffle';
 counter = 0;
 %On utilise la fonction pour loader les mots d'un .txt file
@@ -79,15 +83,19 @@ idx=randperm(max(size(ArrStr)), max(size(ArrStr)));%La suite de nombres random
 images = load_les_images; %Load les images
 images=changer_taille_image(images);%Cette fonction va resize les images
 [windowPtr,rect]=Screen('OpenWindow',screenNumber, [128 128 128]); %Le screen avec un fond de gris
+
 %%
 %Affichage des consignes
-%Screen('BlendFunction', Cfg.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 HideCursor;
 Screen(windowPtr,'TextFont', 'Arial');
-Screen('DrawText', windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', (width_in_mm*0.305), height_in_mm*0.35);
-Screen('DrawText', windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', (width_in_mm*0.29), height_in_mm*0.50);
-Screen('DrawText', windowPtr, 'Appuyez sur la touche Espace pour commencer.', (width_in_mm*0.365), height_in_mm*0.64);
-%%Faudra juste aligner les textes, il est 2h20am sorry
+consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
+consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
+consigne3='Appuyez sur la touche Espace pour commencer.';
+Screen('TextSize', windowPtr, size_font);
+%Screen('DrawText', windowPtr, consigne1, width_in_mm*0.25, height_in_mm*0.35);
+Screen('DrawText', windowPtr, consigne1, width_in_mm*0.5-log(((strlength(consigne1)/size_font)/pixel_in_mm)*strlength(consigne1))*strlength(consigne1), height_in_mm*0.35);
+Screen('DrawText', windowPtr, consigne2, width_in_mm*0.5-log(((strlength(consigne2)/size_font)/pixel_in_mm)*strlength(consigne2))*strlength(consigne2), height_in_mm*0.50);
+Screen('DrawText', windowPtr, consigne3, width_in_mm*0.5-log(((strlength(consigne3)/size_font)/pixel_in_mm)*strlength(consigne3))*strlength(consigne3), height_in_mm*0.64);
 Screen('Flip', windowPtr);
 ListenChar(1);
 [secs, keyCodeI, deltaSecs] = KbWait([],2);
@@ -100,8 +108,10 @@ end
 ListenChar(0);
 %%
 %Main loop
+Screen('TextSize', windowPtr, size_font);
 for z=1:max(size(ArrStr))
     counter = counter + 1;
+    
     fabriquer_fixation(windowPtr); %Fait la croix de fixation
     montrer=idx(z); %montrer est ma valeur randomisée
     texturePtr(1)= Screen('MakeTexture', windowPtr, images{montrer}); %On crée une variable texture à chaque fois
