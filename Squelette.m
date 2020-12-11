@@ -59,7 +59,7 @@ width_in_mm=width_in_mm/pixel_in_mm;
 height_in_mm=height_in_mm/pixel_in_mm;
 hz=Screen('FrameRate', screenNumber);
 %Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
-size_font=round(100*pixel_in_mm);
+%size_font=round(100*pixel_in_mm);
 
 %%
 %%
@@ -87,15 +87,18 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %%
 %Affichage des consignes
 HideCursor;
+Screen('TextSize', windowPtr, 50);
 Screen(windowPtr,'TextFont', 'Arial');
 consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
 consigne3='Appuyez sur la touche Espace pour commencer.';
-Screen('TextSize', windowPtr, size_font);
+DrawFormattedText(windowPtr, consigne1, 'center',  height_in_mm*0.35);
+DrawFormattedText(windowPtr, consigne2, 'center', height_in_mm*0.50);
+DrawFormattedText(windowPtr, consigne3, 'center', height_in_mm*0.64);
 %Screen('DrawText', windowPtr, consigne1, width_in_mm*0.25, height_in_mm*0.35);
-Screen('DrawText', windowPtr, consigne1, width_in_mm*0.5-log(((strlength(consigne1)/size_font)/pixel_in_mm)*strlength(consigne1))*strlength(consigne1), height_in_mm*0.35);
-Screen('DrawText', windowPtr, consigne2, width_in_mm*0.5-log(((strlength(consigne2)/size_font)/pixel_in_mm)*strlength(consigne2))*strlength(consigne2), height_in_mm*0.50);
-Screen('DrawText', windowPtr, consigne3, width_in_mm*0.5-log(((strlength(consigne3)/size_font)/pixel_in_mm)*strlength(consigne3))*strlength(consigne3), height_in_mm*0.64);
+%Screen('DrawText', windowPtr, consigne1, width_in_mm*0.5-log(((strlength(consigne1)/size_font)/pixel_in_mm)*strlength(consigne1))*strlength(consigne1), height_in_mm*0.35);
+%Screen('DrawText', windowPtr, consigne2, width_in_mm*0.5-log(((strlength(consigne2)/size_font)/pixel_in_mm)*strlength(consigne2))*strlength(consigne2), height_in_mm*0.50);
+%Screen('DrawText', windowPtr, consigne3, width_in_mm*0.5-log(((strlength(consigne3)/size_font)/pixel_in_mm)*strlength(consigne3))*strlength(consigne3), height_in_mm*0.64);
 Screen('Flip', windowPtr);
 ListenChar(1);
 [secs, keyCodeI, deltaSecs] = KbWait([],2);
@@ -108,7 +111,7 @@ end
 ListenChar(0);
 %%
 %Main loop
-Screen('TextSize', windowPtr, size_font);
+Screen('TextSize', windowPtr, 100);
 for z=1:max(size(ArrStr))
     counter = counter + 1;
     
@@ -119,8 +122,8 @@ for z=1:max(size(ArrStr))
     Screen('Flip', windowPtr)
     WaitSecs(1);
     for x=1:2 %Chaque suite de mots est composée de 2 mots
-        Screen('TextSize', windowPtr, size_font);
-        Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
+       DrawFormattedText(windowPtr, char(ArrStr{montrer}(x)), 'center', 'center');
+        %Screen('DrawText', windowPtr,char(ArrStr{montrer}(x)), (width_in_mm/2)-((max(size(ArrStr{montrer}(x)))*2)*(width_in_mm/250))-width_in_mm*.05, height_in_mm*0.465); 
         Screen('Flip', windowPtr);
         WaitSecs(0.3);
     end
@@ -154,7 +157,9 @@ for z=1:max(size(ArrStr))
     Array_final(z)={[[file_name '_'  num2str(z)], mot,image_mot, RT{1}, RT{2}, congruence, erreur]}; %On save les résultats dans un array
      end
 end
-Screen('DrawText', windowPtr, 'Fin de la stimulation', width_in_mm*.20, height_in_mm*.465);
+%Screen('DrawText', windowPtr, 'Fin de la stimulation', width_in_mm*.20, height_in_mm*.465);
+Screen('TextSize', windowPtr, 50);
+DrawFormattedText(windowPtr, 'Fin de la stimulation', 'center', 'center'); 
 Screen('Flip', windowPtr);
 WaitSecs(2.0);
 sauvegarde;
@@ -184,7 +189,9 @@ if strcmp(temp, 'q') | strcmp(temp, 'e')
 end
 
 if strcmp(temp, exitKey)
-    Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465);   
+    %Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.24,height_in_mm*.465); 
+    Screen('TextSize', windowPtr, 50);
+    DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
     Screen('Flip', windowPtr);
     
     sauvegarde;
@@ -199,7 +206,9 @@ ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
         if  strcmp(temp2, exitKey)
-            Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.22,height_in_mm*.465);   
+            Screen('TextSize', windowPtr, 50);
+            DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
+            %Screen('DrawText', windowPtr, 'Closure de la présentation', width_in_mm*.22,height_in_mm*.465);   
             Screen('Flip', windowPtr);
             
             sauvegarde;

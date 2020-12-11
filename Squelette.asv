@@ -88,14 +88,15 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %Affichage des consignes
 HideCursor;
 Screen(windowPtr,'TextFont', 'Arial');
+DrawFormattedText(windowPtr, 'Hello World', 'center', 'center', [0 0 0]);
 consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
 consigne3='Appuyez sur la touche Espace pour commencer.';
 Screen('TextSize', windowPtr, size_font);
-Screen('DrawText', windowPtr, consigne1, width_in_mm*0.25, height_in_mm*0.35);
-Screen('DrawText', windowPtr, consigne1, width_in_mm*0.5-(strlength(consigne1)/size_font), height_in_mm*0.35);
-%Screen('DrawText', windowPtr, consigne2, width_in_mm*0.5-(strlength(consigne2)*((size_font/strlength(consigne1)*2)/pixel_in_mm)/2), height_in_mm*0.50);
-Screen('DrawText', windowPtr, consigne3, width_in_mm*0.5-(strlength(consigne3)*((size_font/strlength(consigne3)*2)/pixel_in_mm)/2), height_in_mm*0.64);
+%Screen('DrawText', windowPtr, consigne1, width_in_mm*0.25, height_in_mm*0.35);
+%Screen('DrawText', windowPtr, consigne1, width_in_mm*0.5-log(((strlength(consigne1)/size_font)/pixel_in_mm)*strlength(consigne1))*strlength(consigne1), height_in_mm*0.35);
+Screen('DrawText', windowPtr, consigne2, width_in_mm*0.5-log(((strlength(consigne2)/size_font)/pixel_in_mm)*strlength(consigne2))*strlength(consigne2), height_in_mm*0.50);
+Screen('DrawText', windowPtr, consigne3, width_in_mm*0.5-log(((strlength(consigne3)/size_font)/pixel_in_mm)*strlength(consigne3))*strlength(consigne3), height_in_mm*0.64);
 Screen('Flip', windowPtr);
 ListenChar(1);
 [secs, keyCodeI, deltaSecs] = KbWait([],2);
