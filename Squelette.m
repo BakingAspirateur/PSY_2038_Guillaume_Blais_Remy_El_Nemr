@@ -13,7 +13,7 @@ function experience = Squelette(subName, trial)
 %Frederic Gosselin
 
 % L'expérience principale se trouve dans le dossier: 'PSY_2038_Guillaume_Blais_Remy_El_Nemr', 
-% Les fonctions annexes sont à la fin du scripte
+% Les fonctions annexes sont à la fin du script
 
 % Le scripte crée un dossier 'Squelette_Sujet_[Nom_du_participant]
 %Le nom du participant doit impérativement être un string 'NOM'
@@ -45,8 +45,7 @@ if exist(file_name,'dir')
         subName2=input('Entrez un autre nom'); %Force l'utilisateur à ne pas remettre le meme nom
         end
         file_name=['Squelette_sujet_',char(subName2)];  
-    end
-    
+    end   
 end
 end
 %%
@@ -86,7 +85,7 @@ font_size=100;%La taille de police pourra etre changée pour les grands écrans
 %%
 %Affichage des consignes
 HideCursor;
-Screen('TextSize', windowPtr, font_size/2); 
+Screen('TextSize', windowPtr, font_size*0.30); 
 Screen(windowPtr,'TextFont', 'Arial'); %On utilise DrawFormattedText pour que ce soit centré
 DrawFormattedText(windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', 'center',  height_in_mm*0.35);
 DrawFormattedText(windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', 'center', height_in_mm*0.50);
@@ -124,7 +123,12 @@ for z=1:max(size(ArrStr))
     Screen('Flip', windowPtr); %permet d'effacer le tout
     
     RT=entrer_imput(windowPtr); %Fonction des imput
-    
+    if  strcmp(RT{2}, 'l')
+           DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
+           Screen('Flip', windowPtr);        
+           sauvegarde;
+           return;
+    end
     %Sauvegarde des données dans 3 arrays
     mot=ArrStr{montrer}; 
     image_mot=Array_pour_les_images{montrer};
@@ -153,6 +157,7 @@ for z=1:max(size(ArrStr))
      end
 end
 %%
+
 %Fin de la stimulation
 DrawFormattedText(windowPtr, 'Fin de la stimulation', 'center', 'center'); 
 Screen('Flip', windowPtr);
@@ -176,34 +181,18 @@ ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 temp2 = temp;
-if strcmp(temp, 'q') | strcmp(temp, 'e')
+if strcmp(temp, 'q') | strcmp(temp, 'e')| strcmp(temp2, exitKey)
     ListenChar(0);
     RT = secs - start;
     RT = {RT, temp};
     return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
 end
-
-if strcmp(temp, exitKey)
-    DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
-    Screen('Flip', windowPtr);   
-    sauvegarde;   
-    return;
-end
-
 ListenChar(2);
-    while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
-        %Cette partie permet de quitter la stimulation
+     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e'))| ~(strcmp(temp2, exitKey)) )
         ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
-        if  strcmp(temp2, exitKey)
-            DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
-            Screen('Flip', windowPtr);        
-            sauvegarde;
-            break;
-            
-        end
-        if strcmp(temp2, 'q') | strcmp(temp2, 'e')
+        if strcmp(temp2, 'q') | strcmp(temp2, 'e')| strcmp(temp2, exitKey)
             ListenChar(0);
             break; 
         end
