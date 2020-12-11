@@ -87,7 +87,7 @@ images=changer_taille_image(images);%Cette fonction va resize les images
 %%
 %Affichage des consignes
 HideCursor;
-Screen('TextSize', windowPtr, 50);
+Screen('TextSize', windowPtr, 30);
 Screen(windowPtr,'TextFont', 'Arial');
 consigne1='Quand les mots affichés correspondent à l''image, appuyez sur Q.';
 consigne2='Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.';
