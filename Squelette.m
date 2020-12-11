@@ -62,6 +62,11 @@ pixel_in_mm = width_in_mm/resolutions.width;
 width_in_mm=width_in_mm/pixel_in_mm; %Revient à la meme valeur que Résulution...
 height_in_mm=height_in_mm/pixel_in_mm; %Revient à la meme valeur que Résulution...
 %%
+%Les touches
+exitKey = 'l';
+congruenceKey = 'q';
+incongruenceKey = 'e';
+%%
 %Les propriétés du son
 Fe = 44100;     
 duree = 0.4;      
@@ -123,7 +128,7 @@ for z=1:max(size(ArrStr))
     Screen('Flip', windowPtr); %permet d'effacer le tout
     
     RT=entrer_imput(windowPtr); %Fonction des imput
-    if  strcmp(RT{2}, 'l')
+    if  strcmp(RT{2}, exitKey)
            DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
            Screen('Flip', windowPtr);        
            sauvegarde;
@@ -136,12 +141,12 @@ for z=1:max(size(ArrStr))
     Array_TR(z)=[RT{1}]; %permet de visualiser les TR
     erreur=0; %On retourne l'erreur à la valeru 0 à chaque fois
     %On essaie de faire du feedback
-    if (congruence == true && strcmp(RT{2},'e'))
+    if (congruence == true && strcmp(RT{2},incongruenceKey))
         sound(un_son, Fe);
         erreur='ERREUR';
         WaitSecs(0.4);
     end
-     if (congruence == false && strcmp(RT{2},'q'))
+     if (congruence == false && strcmp(RT{2},congruenceKey))
             sound(un_son, Fe);
             erreur='ERREUR';
             WaitSecs(0.4);
@@ -176,23 +181,22 @@ end
 %stimulation, en sauvegardant
 function RT=entrer_imput(windowPtr)
 start = GetSecs;
-exitKey = 'l';
 ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 temp2 = temp;
-if strcmp(temp, 'q') | strcmp(temp, 'e')| strcmp(temp2, exitKey)
+if strcmp(temp, congruenceKey) | strcmp(temp, incongruenceKey)| strcmp(temp2, exitKey)
     ListenChar(0);
     RT = secs - start;
     RT = {RT, temp};
     return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
 end
 ListenChar(2);
-     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e'))| ~(strcmp(temp2, exitKey)) )
+     while (~(strcmp(temp2, congruenceKey)) | ~(strcmp(temp2, incongruenceKey))| ~(strcmp(temp2, exitKey)) )
         ListenChar(2);
         [secs, keyCode2, deltaSecs] = KbWait([],2);
         temp2 = KbName(keyCode2);
-        if strcmp(temp2, 'q') | strcmp(temp2, 'e')| strcmp(temp2, exitKey)
+        if strcmp(temp2, congruenceKey) | strcmp(temp2, incongruenceKey)| strcmp(temp2, exitKey)
             ListenChar(0);
             break; 
         end
