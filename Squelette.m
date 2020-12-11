@@ -124,7 +124,12 @@ for z=1:max(size(ArrStr))
     Screen('Flip', windowPtr); %permet d'effacer le tout
     
     RT=entrer_imput(windowPtr); %Fonction des imput
-    
+    if  strcmp(RT{2}, 'l')
+           DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
+           Screen('Flip', windowPtr);        
+           sauvegarde;
+           return;
+    end
     %Sauvegarde des données dans 3 arrays
     mot=ArrStr{montrer}; 
     image_mot=Array_pour_les_images{montrer};
@@ -176,34 +181,34 @@ ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 temp2 = temp;
-if strcmp(temp, 'q') | strcmp(temp, 'e')
+if strcmp(temp, 'q') | strcmp(temp, 'e')| strcmp(temp2, exitKey)
     ListenChar(0);
     RT = secs - start;
     RT = {RT, temp};
     return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
 end
 
-if strcmp(temp, exitKey)
-    DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
-    Screen('Flip', windowPtr);   
-    sauvegarde;   
-    return;
-end
+%if strcmp(temp, exitKey)
+ %   DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
+  %  Screen('Flip', windowPtr);   
+   % sauvegarde;   
+    %return;
+%end
 
 ListenChar(2);
-    while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e')) )
+     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e'))| ~(strcmp(temp2, exitKey)) )
         %Cette partie permet de quitter la stimulation
-        ListenChar(2);
-        [secs, keyCode2, deltaSecs] = KbWait([],2);
-        temp2 = KbName(keyCode2);
-        if  strcmp(temp2, exitKey)
-            DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
-            Screen('Flip', windowPtr);        
-            sauvegarde;
-            break;
+      %  ListenChar(2);
+     %   [secs, keyCode2, deltaSecs] = KbWait([],2);
+    %    temp2 = KbName(keyCode2);
+   %     if  strcmp(temp2, exitKey)
+   %         DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
+  %          Screen('Flip', windowPtr);        
+ %           sauvegarde;
+%            break;
             
-        end
-        if strcmp(temp2, 'q') | strcmp(temp2, 'e')
+      %  end
+        if strcmp(temp2, 'q') | strcmp(temp2, 'e')| strcmp(temp2, exitKey)
             ListenChar(0);
             break; 
         end
