@@ -86,7 +86,7 @@ font_size=100;%La taille de police pourra etre changée pour les grands écrans
 %%
 %Affichage des consignes
 HideCursor;
-Screen('TextSize', windowPtr, font_size/2); 
+Screen('TextSize', windowPtr, font_size*0.30); 
 Screen(windowPtr,'TextFont', 'Arial'); %On utilise DrawFormattedText pour que ce soit centré
 DrawFormattedText(windowPtr, 'Quand les mots affichés correspondent à l''image, appuyez sur Q.', 'center',  height_in_mm*0.35);
 DrawFormattedText(windowPtr, 'Quand les mots affichés ne correspondent pas à l''image, appuyez sur E.', 'center', height_in_mm*0.50);
@@ -128,7 +128,7 @@ for z=1:max(size(ArrStr))
            DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
            Screen('Flip', windowPtr);        
            sauvegarde;
-           break;
+           return;
     end
     %Sauvegarde des données dans 3 arrays
     mot=ArrStr{montrer}; 
@@ -181,34 +181,15 @@ ListenChar(2);
 [secs, keyCode, deltaSecs] = KbWait([], 2);
 temp = KbName(keyCode); %%lettre a save
 temp2 = temp;
-if strcmp(temp, 'q') | strcmp(temp, 'e')
+if strcmp(temp, 'q') | strcmp(temp, 'e')| strcmp(temp2, exitKey)
     ListenChar(0);
     RT = secs - start;
     RT = {RT, temp};
     return; %% correction - maintenant, l'utilisateur n'aura plus a presser 2 fois sur q ou l
 end
-
-%if strcmp(temp, exitKey)
- %   DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center'); 
-  %  Screen('Flip', windowPtr);   
-   % sauvegarde;   
-    %return;
-%end
-
 ListenChar(2);
-     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e'))| ~(strcmp(temp2, 'e')) )
-        %Cette partie permet de quitter la stimulation
-      %  ListenChar(2);
-     %   [secs, keyCode2, deltaSecs] = KbWait([],2);
-    %    temp2 = KbName(keyCode2);
-   %     if  strcmp(temp2, exitKey)
-   %         DrawFormattedText(windowPtr, 'Closure de la stimulation', 'center', 'center');    
-  %          Screen('Flip', windowPtr);        
- %           sauvegarde;
-%            break;
-            
-      %  end
-        if strcmp(temp2, 'q') | strcmp(temp2, 'e')
+     while (~(strcmp(temp2, 'q')) | ~(strcmp(temp2, 'e'))| ~(strcmp(temp2, exitKey)) )
+        if strcmp(temp2, 'q') | strcmp(temp2, 'e')| strcmp(temp2, exitKey)
             ListenChar(0);
             break; 
         end
