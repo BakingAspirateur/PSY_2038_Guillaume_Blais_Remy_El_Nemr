@@ -11,11 +11,12 @@ Ce programme affiche des pairs images-mots. Une image est affichée, et une sér
 ## Prérequis
 
 Pour faire fonctionner le programme, vous aurez besoin de:
+
 -[L'installation intégrale de Psychtoolbox](http://psychtoolbox.org/download). 
 
 -MATLAB
 
--Microsoft Excel
+-Microsoft Excel (Facultatif pour visionner les données hors de MATLAB).
 
 ## Installation
 
@@ -28,11 +29,17 @@ Pour lancer le programme, il suffit d'entrer dans la console la ligne de code su
 `Squelette('NOM',TRIAL)`
 
 *NOM* correspond au nom de votre participant.
+
 *TRIAL* correspond au type de bloc - pour le bloc d'entrainement, **TRIAL = 0**. Pour le bloc d'essais, **TRIAL = 1.**
+
+Par exemple, si le nom du participant est Maxime, et que vous voulez rouler le bloc d'essais, il vous suffira d'écrire:
+
+`Squelette('maxime',1)`
 
 ## Contributeurs
 
 [Guillaume Blais](https://github.com/BakingAspirateur)
+
 [Rémy El-Nemr](https://github.com/RemyNmr)
 
 
